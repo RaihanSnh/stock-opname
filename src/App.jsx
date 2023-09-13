@@ -1,10 +1,10 @@
 import React from 'react';
-import Login from './assets/pages/Login';
+import Layout from './assets/pages/layout';
 
 function App() {
   return (
     <>
-      <Login />
+      <Layout/>
     </>
   );
 }
