@@ -18,16 +18,16 @@ function Sidebar() {
     };
 
     return (
-        <aside className={`sidebar ${isOpen ? "bg-sky-800" : ""} transition-all duration-300`} aria-controls="sidebar" aria-expanded={isOpen}>
+        <aside className={`${isOpen ? "w-64" : "w-16"} bg-sky-800 transition-width duration-300`} aria-controls="sidebar" aria-expanded={isOpen}>
             <button className="absolute top-0 left-0 p-3" onClick={toggleSidebar}>
-                <svg className="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                <svg className={`w-${isOpen ? "6" : "16" } h-${isOpen ? "6" : "16" } text-gray-800`} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
                 </svg>
                 {/*ini svg diganti nanti jadi logo*/}
             </button>
             <div className="p-2 border-b h-20 flex items-center">
                 <div className="py-4 px-3">
-                    <Link to="/" className="md:py-2 text-white text-lg font-semibold sm:text-2xl ml-5">
+                    <Link to="/" className={`md:py-2 text-white text-lg font-semibold sm:text-2xl ml-${isOpen ? "5" : "2"}`}>
                         <b>STOCK</b> Opname
                     </Link>
                 </div>
