@@ -4,28 +4,28 @@ import Navbar from "../component/Navbar"
 import LaporanMasuk from "../component/LaporanMasuk"
 import LaporanKeluar from "../component/LaporanKeluar"
 import Product from "../component/Product"
-import Table_barang from "../component/table_barang";
-import Table_gudang from "./../component/table_gudang";
+import TambahBarang from "../component/Produk_baru"
 
 
 function Layout() {
     return (
         <Router>
-            <body className="flex w-screen h-screen bg-gray-100">
+            <div className="h-screen w-screen flex overflow-y-auto bg-gray-100">
                 <Sidebar/>
                 <div className="w-full flex flex-col">
                     <Navbar />
-                    <div className="h-full p-4">
-                        <div className="h-full flex flex-col bg-white rounded-xl shadow-md">
+                    <div className="p-4">
+                        <div className="bg-white flex flex-col rounded-xl shadow-md ml-64 mt-16 py-6 px-6">
                             <Routes>
                                 <Route path="/" element={<Product />}/>
                                 <Route path="/laporanmasuk" element={<LaporanMasuk />}/>
                                 <Route path="/laporankeluar" element={<LaporanKeluar />}/>
+                                <Route path="/tambahbarang" element={<TambahBarang />}/>
                             </Routes>
                         </div>
                     </div>
                 </div>
-            </body>
+            </div>
         </Router>
     );
 }
