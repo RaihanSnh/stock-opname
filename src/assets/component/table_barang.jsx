@@ -17,8 +17,8 @@ function table_barang() {
                     </div>
                 </div>
             </div>  
-            <div className="flex flex-col w-full mt-4">
-                <div className="grid grid-cols-6 p-2 text-xs font-bold text-gray-900 bg-gray-100 rounded">
+            <div className="flex flex-col w-full mt-4 max-h-96 overflow-auto scrollbar-gray">
+                <div className="grid grid-cols-6 p-2 text-xs font-bold text-gray-900 bg-gray-100 rounded mb-1 sticky top-0">
                     <span>No</span>
                     <span>Kode</span>
                     <span>Barang</span>
@@ -26,7 +26,7 @@ function table_barang() {
                     <span>Seri</span>
                     <span>Tanggal</span>
                 </div>
-                <div className="max-h-96 overflow-auto no-scrollbar">
+                <div className="">
                     <div className="grid grid-cols-6 p-2 text-xs font-medium text-gray-900 border-gray-200">
                         <span>1</span>
                         <span className="text-blue-700">ABC-123</span>

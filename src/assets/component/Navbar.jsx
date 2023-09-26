@@ -2,7 +2,7 @@ function Navbar() {
     return(   
         <nav className="w-full bg-white shadow-md fixed z-40">
             <div className="p-3 border-b h-16">
-                <div className="p-2 flex justify-end items-center">
+                <div className="p-2 px-8 flex justify-end items-center">
                     <div className="flex items-center gap-4">
                         <div className="order-last">
                             <svg className="w-7 h-7 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">

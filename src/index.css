@@ -2,7 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
-.no-scrollbar::-webkit-scrollbar {
-  width: 0;
+.scrollbar-gray::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.scrollbar-gray::-webkit-scrollbar-track {
+  background: rgb(255, 255, 255);
+  outline: solid 2px rgb(243, 244, 246);
+  border-radius: 10px;
+}
+
+.scrollbar-gray::-webkit-scrollbar-thumb {
+  background: rgb(216, 216, 216);
+  border-radius: 10px;
+}
+
+.scrollbar::-webkit-scrollbar {
+  width: 0px;
   background: transparent;
 }

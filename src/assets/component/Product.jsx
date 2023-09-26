@@ -13,7 +13,7 @@ function Product() {
     
     return(
         <>
-            <div className="mb-6 border-b-2">
+            <div className="mb-4">
                 <div className="flex items-center justify-between">
                     <h1 className="text-xl font-medium">Produk</h1>
                     <div className="relative">
@@ -93,7 +93,7 @@ function Product() {
                         </div>
                     </div>
                 </div>
-                <div className="max-h-full flex flex-col mt-6">
+                <div className="mt-6">
                     {
                         table == "barang" ?
                         (<TableBarang/>)
