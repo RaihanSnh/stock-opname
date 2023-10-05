@@ -5,7 +5,7 @@ import TableGudang from "./table_gudang";
 
 export default function Produk() {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [table, setTable] = useState("barang");
+    const [table, setTable] = useState('barang');
 
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);
@@ -42,12 +42,12 @@ export default function Produk() {
                 <div className="my-4">
                     <ul className="flex gap-2">
                         <li>
-                            <button className="py-3" type="button" onClick={(e) => setTable("barang")}>
+                            <button className={`py-3 ${table === 'barang' ? 'border-b-[2px] border-b-sky-500' : ''}`} type="button" onClick={(e) => setTable('barang')}>
                                 <span>Barang</span>
                             </button>
                         </li>
                         <li>
-                            <button className="py-3" type="button" onClick={(e) => setTable("gudang")}>
+                            <button className={`py-3 ${table === 'gudang' ? 'border-b-[2px] border-b-sky-500' : ''}`} type="button" onClick={(e) => setTable('gudang')}>
                                 <span>Gudang</span>
                             </button>
                         </li>
