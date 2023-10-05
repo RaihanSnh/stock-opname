@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom"
 
 export default function LaporanMasuk() {
+    const table = [
+    ]
+
     return(
         <>
             <div className="pb-4 mb-4">
@@ -39,199 +42,13 @@ export default function LaporanMasuk() {
                     <span>Seri</span>
                     <span>Tanggal</span>
                 </div>
-                <div className="">
-                    <div className="grid grid-cols-6 p-2 text-xs font-medium text-gray-900 border-gray-200">
-                        <span>1</span>
-                        <span className="text-blue-700">ABC-123</span>
-                        <span>Mouse</span>
-                        <span>10 pcs</span>
-                        <span>Logitech</span>
-                        <span>20-09-2023</span>
+                {table.map((row) => (
+                    <div key={row.no} className="grid grid-cols-6 p-2 text-xs font-medium text-gray-900 mb-1">
+                        {Object.keys(row).map((key) => (
+                            <span key={key}>{row[key]}</span>
+                        ))}
                     </div>
-                    <div className="grid grid-cols-6 p-2 text-xs font-medium text-gray-900 border-gray-200">
-                        <span>1</span>
-                        <span className="text-blue-700">ABC-123</span>
-                        <span>Mouse</span>
-                        <span>10 pcs</span>
-                        <span>Logitech</span>
-                        <span>20-09-2023</span>
-                    </div><div className="grid grid-cols-6 p-2 text-xs font-medium text-gray-900 border-gray-200">
-                        <span>1</span>
-                        <span className="text-blue-700">ABC-123</span>
-                        <span>Mouse</span>
-                        <span>10 pcs</span>
-                        <span>Logitech</span>
-                        <span>20-09-2023</span>
-                    </div><div className="grid grid-cols-6 p-2 text-xs font-medium text-gray-900 border-gray-200">
-                        <span>1</span>
-                        <span className="text-blue-700">ABC-123</span>
-                        <span>Mouse</span>
-                        <span>10 pcs</span>
-                        <span>Logitech</span>
-                        <span>20-09-2023</span>
-                    </div><div className="grid grid-cols-6 p-2 text-xs font-medium text-gray-900 border-gray-200">
-                        <span>1</span>
-                        <span className="text-blue-700">ABC-123</span>
-                        <span>Mouse</span>
-                        <span>10 pcs</span>
-                        <span>Logitech</span>
-                        <span>20-09-2023</span>
-                    </div><div className="grid grid-cols-6 p-2 text-xs font-medium text-gray-900 border-gray-200">
-                        <span>1</span>
-                        <span className="text-blue-700">ABC-123</span>
-                        <span>Mouse</span>
-                        <span>10 pcs</span>
-                        <span>Logitech</span>
-                        <span>20-09-2023</span>
-                    </div><div className="grid grid-cols-6 p-2 text-xs font-medium text-gray-900 border-gray-200">
-                        <span>1</span>
-                        <span className="text-blue-700">ABC-123</span>
-                        <span>Mouse</span>
-                        <span>10 pcs</span>
-                        <span>Logitech</span>
-                        <span>20-09-2023</span>
-                    </div><div className="grid grid-cols-6 p-2 text-xs font-medium text-gray-900 border-gray-200">
-                        <span>1</span>
-                        <span className="text-blue-700">ABC-123</span>
-                        <span>Mouse</span>
-                        <span>10 pcs</span>
-                        <span>Logitech</span>
-                        <span>20-09-2023</span>
-                    </div><div className="grid grid-cols-6 p-2 text-xs font-medium text-gray-900 border-gray-200">
-                        <span>1</span>
-                        <span className="text-blue-700">ABC-123</span>
-                        <span>Mouse</span>
-                        <span>10 pcs</span>
-                        <span>Logitech</span>
-                        <span>20-09-2023</span>
-                    </div><div className="grid grid-cols-6 p-2 text-xs font-medium text-gray-900 border-gray-200">
-                        <span>1</span>
-                        <span className="text-blue-700">ABC-123</span>
-                        <span>Mouse</span>
-                        <span>10 pcs</span>
-                        <span>Logitech</span>
-                        <span>20-09-2023</span>
-                    </div><div className="grid grid-cols-6 p-2 text-xs font-medium text-gray-900 border-gray-200">
-                        <span>1</span>
-                        <span className="text-blue-700">ABC-123</span>
-                        <span>Mouse</span>
-                        <span>10 pcs</span>
-                        <span>Logitech</span>
-                        <span>20-09-2023</span>
-                    </div><div className="grid grid-cols-6 p-2 text-xs font-medium text-gray-900 border-gray-200">
-                        <span>1</span>
-                        <span className="text-blue-700">ABC-123</span>
-                        <span>Mouse</span>
-                        <span>10 pcs</span>
-                        <span>Logitech</span>
-                        <span>20-09-2023</span>
-                    </div><div className="grid grid-cols-6 p-2 text-xs font-medium text-gray-900 border-gray-200">
-                        <span>1</span>
-                        <span className="text-blue-700">ABC-123</span>
-                        <span>Mouse</span>
-                        <span>10 pcs</span>
-                        <span>Logitech</span>
-                        <span>20-09-2023</span>
-                    </div><div className="grid grid-cols-6 p-2 text-xs font-medium text-gray-900 border-gray-200">
-                        <span>1</span>
-                        <span className="text-blue-700">ABC-123</span>
-                        <span>Mouse</span>
-                        <span>10 pcs</span>
-                        <span>Logitech</span>
-                        <span>20-09-2023</span>
-                    </div><div className="grid grid-cols-6 p-2 text-xs font-medium text-gray-900 border-gray-200">
-                        <span>1</span>
-                        <span className="text-blue-700">ABC-123</span>
-                        <span>Mouse</span>
-                        <span>10 pcs</span>
-                        <span>Logitech</span>
-                        <span>20-09-2023</span>
-                    </div><div className="grid grid-cols-6 p-2 text-xs font-medium text-gray-900 border-gray-200">
-                        <span>1</span>
-                        <span className="text-blue-700">ABC-123</span>
-                        <span>Mouse</span>
-                        <span>10 pcs</span>
-                        <span>Logitech</span>
-                        <span>20-09-2023</span>
-                    </div><div className="grid grid-cols-6 p-2 text-xs font-medium text-gray-900 border-gray-200">
-                        <span>1</span>
-                        <span className="text-blue-700">ABC-123</span>
-                        <span>Mouse</span>
-                        <span>10 pcs</span>
-                        <span>Logitech</span>
-                        <span>20-09-2023</span>
-                    </div><div className="grid grid-cols-6 p-2 text-xs font-medium text-gray-900 border-gray-200">
-                        <span>1</span>
-                        <span className="text-blue-700">ABC-123</span>
-                        <span>Mouse</span>
-                        <span>10 pcs</span>
-                        <span>Logitech</span>
-                        <span>20-09-2023</span>
-                    </div><div className="grid grid-cols-6 p-2 text-xs font-medium text-gray-900 border-gray-200">
-                        <span>1</span>
-                        <span className="text-blue-700">ABC-123</span>
-                        <span>Mouse</span>
-                        <span>10 pcs</span>
-                        <span>Logitech</span>
-                        <span>20-09-2023</span>
-                    </div><div className="grid grid-cols-6 p-2 text-xs font-medium text-gray-900 border-gray-200">
-                        <span>1</span>
-                        <span className="text-blue-700">ABC-123</span>
-                        <span>Mouse</span>
-                        <span>10 pcs</span>
-                        <span>Logitech</span>
-                        <span>20-09-2023</span>
-                    </div><div className="grid grid-cols-6 p-2 text-xs font-medium text-gray-900 border-gray-200">
-                        <span>1</span>
-                        <span className="text-blue-700">ABC-123</span>
-                        <span>Mouse</span>
-                        <span>10 pcs</span>
-                        <span>Logitech</span>
-                        <span>20-09-2023</span>
-                    </div><div className="grid grid-cols-6 p-2 text-xs font-medium text-gray-900 border-gray-200">
-                        <span>1</span>
-                        <span className="text-blue-700">ABC-123</span>
-                        <span>Mouse</span>
-                        <span>10 pcs</span>
-                        <span>Logitech</span>
-                        <span>20-09-2023</span>
-                    </div><div className="grid grid-cols-6 p-2 text-xs font-medium text-gray-900 border-gray-200">
-                        <span>1</span>
-                        <span className="text-blue-700">ABC-123</span>
-                        <span>Mouse</span>
-                        <span>10 pcs</span>
-                        <span>Logitech</span>
-                        <span>20-09-2023</span>
-                    </div><div className="grid grid-cols-6 p-2 text-xs font-medium text-gray-900 border-gray-200">
-                        <span>1</span>
-                        <span className="text-blue-700">ABC-123</span>
-                        <span>Mouse</span>
-                        <span>10 pcs</span>
-                        <span>Logitech</span>
-                        <span>20-09-2023</span>
-                    </div><div className="grid grid-cols-6 p-2 text-xs font-medium text-gray-900 border-gray-200">
-                        <span>1</span>
-                        <span className="text-blue-700">ABC-123</span>
-                        <span>Mouse</span>
-                        <span>10 pcs</span>
-                        <span>Logitech</span>
-                        <span>20-09-2023</span>
-                    </div><div className="grid grid-cols-6 p-2 text-xs font-medium text-gray-900 border-gray-200">
-                        <span>1</span>
-                        <span className="text-blue-700">ABC-123</span>
-                        <span>Mouse</span>
-                        <span>10 pcs</span>
-                        <span>Logitech</span>
-                        <span>20-09-2023</span>
-                    </div><div className="grid grid-cols-6 p-2 text-xs font-medium text-gray-900 border-gray-200">
-                        <span>1</span>
-                        <span className="text-blue-700">ABC-123</span>
-                        <span>Mouse</span>
-                        <span>10 pcs</span>
-                        <span>Logitech</span>
-                        <span>20-09-2023</span>
-                    </div> 
-                </div>
+                ))}
             </div>
         </>
     )
