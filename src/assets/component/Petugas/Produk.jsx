@@ -4,12 +4,7 @@ import TableBarang from "./table_barang"
 import TableGudang from "./table_gudang";
 
 export default function Produk() {
-<<<<<<< HEAD:src/assets/component/Petugas/Produk.jsx
     const [table, setTable] = useState("barang");
-=======
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [table, setTable] = useState('barang');
->>>>>>> 1df52c3240d1d06a702edbdf5660117ba263e781:src/assets/component/Produk.jsx
 
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -48,20 +43,12 @@ export default function Produk() {
                 <div className="my-4">
                     <ul className="flex gap-4">
                         <li>
-<<<<<<< HEAD:src/assets/component/Petugas/Produk.jsx
                             <button className={`${table === 'barang' ? 'border-b-2 border-b-sky-600 text-sky-600' : 'text-gray-500 hover:border-b-2 hover:border-b-gray-400'} py-3`} type="button" onClick={(e) => setTable("barang")}>
-=======
-                            <button className={`py-3 ${table === 'barang' ? 'border-b-[2px] border-b-sky-500' : ''}`} type="button" onClick={(e) => setTable('barang')}>
->>>>>>> 1df52c3240d1d06a702edbdf5660117ba263e781:src/assets/component/Produk.jsx
                                 <span>Barang</span>
                             </button>
                         </li>
                         <li>
-<<<<<<< HEAD:src/assets/component/Petugas/Produk.jsx
                             <button className={`${table === 'gudang' ? 'border-b-2 border-b-sky-600 text-sky-600' : 'text-gray-500 hover:border-b-2 hover:border-b-gray-400'} py-3`} type="button" onClick={(e) => setTable("gudang")}>
-=======
-                            <button className={`py-3 ${table === 'gudang' ? 'border-b-[2px] border-b-sky-500' : ''}`} type="button" onClick={(e) => setTable('gudang')}>
->>>>>>> 1df52c3240d1d06a702edbdf5660117ba263e781:src/assets/component/Produk.jsx
                                 <span>Gudang</span>
                             </button>
                         </li>
