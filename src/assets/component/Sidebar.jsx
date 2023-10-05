@@ -11,7 +11,7 @@ export default function Sidebar() {
     };
     
     const navigation = [
-        { icon:<Produk/>, name: 'Produk', href: '/'},
+        { icon:<Produk/>, name: 'Produk', href: '/dashboard/admin'},
         { 
             icon:<Laporan/>, 
             name: 'Laporan', 
@@ -52,7 +52,7 @@ export default function Sidebar() {
                 className={`${isOpen ? "w-64" : "w-20"} fixed h-screen z-50`}
             >
                 <div className="h-full overflow-y-auto bg-sky-500 whitespace-nowrap transition-none duration-0">
-                    <Link to="/" className={`${isOpen ? "" : "justify-center"} text-white flex items-center border-b p-5 h-16 gap-1.5`}>
+                    <Link to="/dashboard/admin" className={`${isOpen ? "" : "justify-center"} text-white flex items-center border-b p-5 h-16 gap-1.5`}>
                         <button onClick={toggleSidebar}>
                             <img src={logo} alt="" className="w-7 h-7"/>
                         </button>
