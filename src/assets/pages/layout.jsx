@@ -3,19 +3,19 @@ import Sidebar from "../component/Sidebar"
 import Navbar from "../component/Navbar"
 import LaporanMasuk from "../component/LaporanMasuk"
 import LaporanKeluar from "../component/LaporanKeluar"
-import Product from "../component/Product"
+import Product from "../component/Produk"
 import TambahBarang from "../component/Produk_baru"
+import Login from "./auth/Login"
 
 
-function Layout() {
+export default function Layout() {
     return (
         <Router>
-            <div className="h-screen w-screen flex overflow-y-auto bg-gray-100 scrollbar">
-                <Sidebar/>
-                <div className="w-full flex flex-col">
+                <div className="h-screen w-screen flex flex-col overflow-y-auto bg-gray-100 scrollbar select-none">
+                    <Sidebar/>
                     <Navbar />
-                    <div className="p-4">
-                        <div className="bg-white flex flex-col rounded-xl shadow-md ml-20 mt-16 py-6 px-6 max-full">
+                    <div className="p-4 max-h-screen">
+                        <div className="bg-white rounded-xl shadow-md ml-20 py-6 px-6 max-h-full flex flex-col">
                             <Routes>
                                 <Route path="/" element={<Product />}/>
                                 <Route path="/laporanmasuk" element={<LaporanMasuk />}/>
@@ -25,9 +25,6 @@ function Layout() {
                         </div>
                     </div>
                 </div>
-            </div>
         </Router>
     );
 }
-
-export default Layout

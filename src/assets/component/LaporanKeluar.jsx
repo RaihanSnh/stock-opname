@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 
-function LaporanKeluar() {
+export default function LaporanKeluar() {
     return(
         <>
             <div className="pb-4 mb-4">
@@ -30,7 +30,7 @@ function LaporanKeluar() {
                     </div>
                 </div>
             </div>  
-            <div className="flex flex-col w-full mt-4 max-h-96 overflow-auto scrollbar-gray">
+            <div className="w-full mt-4 overflow-auto scrollbar-gray">
                 <div className="grid grid-cols-6 p-2 text-xs font-bold text-gray-900 bg-gray-100 rounded mb-1 sticky top-0">
                     <span>No</span>
                     <span>Kode</span>
@@ -187,5 +187,3 @@ function LaporanKeluar() {
         </>
     )
 }
-
-export default LaporanKeluar

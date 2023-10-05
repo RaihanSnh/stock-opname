@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { Link, NavLink } from "react-router-dom"
-import logo from "../images/icon/logo.svg"
+import logo from "../images/logo-main.svg"
 import {Produk, Laporan} from "../images/icon/icon";
 
 export default function Sidebar() {
@@ -51,15 +51,13 @@ export default function Sidebar() {
                 onMouseLeave={handleSidebarLeave} 
                 className={`${isOpen ? "w-64" : "w-20"} fixed h-screen z-50`}
             >
-                <div className="h-full overflow-y-auto bg-sky-500 transition-width duration-300">
-                    <div className={`${isOpen ? "" : "justify-center"} flex text-white text-lg font-semibold border-b items-center p-5 h-16 gap-2`}>
+                <div className="h-full overflow-y-auto bg-sky-500 whitespace-nowrap transition-none duration-0">
+                    <Link to="/" className={`${isOpen ? "" : "justify-center"} text-white flex items-center border-b p-5 h-16 gap-1.5`}>
                         <button onClick={toggleSidebar}>
-                            <img src={logo} alt="" className="w-6 h-6"/>
+                            <img src={logo} alt="" className="w-7 h-7"/>
                         </button>
-                        <Link to="/">
-                            <span className="text-2xl" style={{ display: isOpen ? "inline" : "none" }}>Stock Opname</span>
-                        </Link>
-                    </div>
+                        <span className={`${isOpen ? "inline" : "hidden"} text-xl font-bold text-logo`}>STOCK OPNAME</span>
+                    </Link>
                     <ul className="space-y-2 font-medium px-3 py-4">
                         {navigation.map((item, index) => (
                             <li key={index}>

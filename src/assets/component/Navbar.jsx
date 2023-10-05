@@ -1,6 +1,6 @@
-function Navbar() {
+export default function Navbar() {
     return(   
-        <nav className="w-full bg-white shadow-md fixed z-40">
+        <nav className="w-full bg-white shadow-md sticky top-0 z-10">
             <div className="p-3 border-b h-16">
                 <div className="p-2 px-8 flex justify-end items-center">
                     <div className="flex items-center gap-4">
@@ -20,5 +20,3 @@ function Navbar() {
         </nav>
     )
 }
-
-export default Navbar

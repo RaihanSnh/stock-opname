@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 
-function TambahBarang() {
+export default function TambahBarang() {
     return(
         <>
             <div className="pb-4 mb-4">
@@ -64,5 +64,3 @@ function TambahBarang() {
         </>
     )
 }
-
-export default TambahBarang

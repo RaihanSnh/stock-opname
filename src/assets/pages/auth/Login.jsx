@@ -15,7 +15,7 @@ const EyeIconClosed = () => (
 </svg>
 );
 
-class Login extends Component {
+export default class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -130,5 +130,3 @@ class Login extends Component {
     );
   }
 }
-
-export default Login;

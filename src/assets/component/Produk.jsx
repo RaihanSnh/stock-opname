@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import TableBarang from "./table_barang";
+import TableBarang from "./table_barang"
 import TableGudang from "./table_gudang";
 
-function Product() {
+export default function Produk() {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [table, setTable] = useState("barang");
 
@@ -54,56 +54,50 @@ function Product() {
                     </ul>
                 </div>
             </div>
-            <div className="flex flex-col">
-                <div className="grid grid-cols-4 gap-4">
-                    <div className="border border-green-600 rounded">
-                        <div className="bg-green-100 p-2 border-b rounded-t">
-                            <h1 className="font-bold">Stock Available</h1>
-                        </div>
-                        <div className="p-2">
-                            <p className="text-sm">Total Produk</p>
-                            <h3 className="font-bold text-lg">1</h3>
-                        </div>
+            <div className="grid grid-cols-4 gap-4">
+                <div className="border border-green-600 rounded">
+                    <div className="bg-green-100 p-2 border-b rounded-t">
+                        <h1 className="font-bold">Stock Available</h1>
                     </div>
-                    <div className="border border-yellow-500 rounded">
-                        <div className="bg-yellow-100 p-2 border-b rounded-t">
-                            <h1 className="font-bold">Stock Available</h1>
-                        </div>
-                        <div className="p-2">
-                            <p className="text-sm">Total Produk</p>
-                            <h3 className="font-bold text-lg">1</h3>
-                        </div>
-                    </div>
-                    <div className="border border-red-600 rounded">
-                        <div className="bg-red-100 p-2 border-b rounded-t">
-                            <h1 className="font-bold">Stock Available</h1>
-                        </div>
-                        <div className="p-2">
-                            <p className="text-sm">Total Produk</p>
-                            <h3 className="font-bold text-lg">1</h3>
-                        </div>
-                    </div>
-                    <div className="border border-purple-600 rounded">
-                        <div className="bg-purple-100 p-2 border-b rounded-t">
-                            <h1 className="font-bold">Stock Available</h1>
-                        </div>
-                        <div className="p-2">
-                            <p className="text-sm">Total Produk</p>
-                            <h3 className="font-bold text-lg">1</h3>
-                        </div>
+                    <div className="p-2">
+                        <p className="text-sm">Total Produk</p>
+                        <h3 className="font-bold text-lg">1</h3>
                     </div>
                 </div>
-                <div className="mt-6">
-                    {
-                        table == "barang" ?
-                        (<TableBarang/>)
-                        :
-                        (<TableGudang/>)
-                    }
+                <div className="border border-yellow-500 rounded">
+                    <div className="bg-yellow-100 p-2 border-b rounded-t">
+                        <h1 className="font-bold">Stock Available</h1>
+                    </div>
+                    <div className="p-2">
+                        <p className="text-sm">Total Produk</p>
+                        <h3 className="font-bold text-lg">1</h3>
+                    </div>
+                </div>
+                <div className="border border-red-600 rounded">
+                    <div className="bg-red-100 p-2 border-b rounded-t">
+                        <h1 className="font-bold">Stock Available</h1>
+                    </div>
+                    <div className="p-2">
+                        <p className="text-sm">Total Produk</p>
+                        <h3 className="font-bold text-lg">1</h3>
+                    </div>
+                </div>
+                <div className="border border-purple-600 rounded">
+                    <div className="bg-purple-100 p-2 border-b rounded-t">
+                        <h1 className="font-bold">Stock Available</h1>
+                    </div>
+                    <div className="p-2">
+                        <p className="text-sm">Total Produk</p>
+                        <h3 className="font-bold text-lg">1</h3>
+                    </div>
                 </div>
             </div>
+            {
+                table == "barang" ?
+                (<TableBarang/>)
+                :
+                (<TableGudang/>)
+            }
         </>
     )
 }
-
-export default Product

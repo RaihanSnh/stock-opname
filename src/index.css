@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -21,4 +22,8 @@
 .scrollbar::-webkit-scrollbar {
   width: 0px;
   background: transparent;
+}
+
+.text-logo {
+  font-family: 'Lexend Deca', sans-serif;
 }

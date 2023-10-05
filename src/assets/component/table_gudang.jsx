@@ -1,4 +1,4 @@
-function table_gundang() {
+export default function TableGudang() {
     return(
         <>
             <div className="mt-4">
@@ -17,7 +17,7 @@ function table_gundang() {
                     </div>
                 </div>
             </div>  
-            <div className="flex flex-col w-full mt-4 max-h-96 overflow-auto scrollbar-gray">
+            <div className="w-full mt-4 overflow-auto scrollbar-gray">
                 <div className="grid grid-cols-6 p-2 text-xs font-bold text-gray-900 bg-gray-100 rounded mb-1 sticky top-0">
                     <span>No</span>
                     <span>Kode</span>
@@ -174,5 +174,3 @@ function table_gundang() {
         </>
     )
 }
-
-export default table_gundang
