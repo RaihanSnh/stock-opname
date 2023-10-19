@@ -1,8 +1,7 @@
 import { Outlet } from "react-router-dom";
-import Navbar from "../component/Navbar";
-import Request from "../component/Pemohon/Request";
+import Navbar from "../../../component/Navbar";
 
-export default function Pemohon() {
+export default function Requester() {
     return (
         <div className="h-screen w-screen flex flex-col overflow-y-auto bg-gray-100 scrollbar select-none">
             <Navbar />

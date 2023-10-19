@@ -21,7 +21,7 @@ export default function Produk() {
                         <button className="p-2 px-4 gap-2 bg-sky-500 hover:bg-sky-600 text-white rounded flex items-center font-medium" onClick={toggleDropdown}>
                             <span>Aksi</span>
                             <span>    
-                                <svg class="w-3 h-3 text-white mt-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 10">
+                                <svg className="w-3 h-3 text-white mt-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 10">
                                     <path d="M15.434 1.235A2 2 0 0 0 13.586 0H2.414A2 2 0 0 0 1 3.414L6.586 9a2 2 0 0 0 2.828 0L15 3.414a2 2 0 0 0 .434-2.179Z"/>
                                 </svg>
                             </span>
@@ -29,10 +29,10 @@ export default function Produk() {
                         {isDropdownOpen && (
                             <div className="absolute mt-1 w-56 right-0 bg-white rounded-md border border-gray-300">
                                 <ul>
-                                    <Link to="/tambahbarang" className="flex item-center hover:bg-gray-100 transition duration-300 ease-in-out p-2 px-3">
+                                    <Link to="tambahbarang" className="flex item-center hover:bg-gray-100 transition duration-300 ease-in-out p-2 px-3">
                                         <span>Tambah Barang</span>
                                     </Link>
-                                    <Link to="/tambahgudang" className="flex item-center hover:bg-gray-100 transition duration-300 ease-in-out p-2 px-3">
+                                    <Link to="tambahgudang" className="flex item-center hover:bg-gray-100 transition duration-300 ease-in-out p-2 px-3">
                                         <span>Tambah Gudang</span>
                                     </Link>
                                 </ul>
@@ -43,12 +43,12 @@ export default function Produk() {
                 <div className="my-4">
                     <ul className="flex gap-4">
                         <li>
-                            <button className={`${table === 'barang' ? 'border-b-2 border-b-sky-600 text-sky-600' : 'text-gray-500 hover:border-b-2 hover:border-b-gray-400'} py-3`} type="button" onClick={(e) => setTable("barang")}>
+                            <button className={`${table === 'barang' ? 'border-b-2 border-b-sky-600 text-sky-600' : 'text-gray-500'} py-3`} type="button" onClick={(e) => setTable("barang")}>
                                 <span>Barang</span>
                             </button>
                         </li>
                         <li>
-                            <button className={`${table === 'gudang' ? 'border-b-2 border-b-sky-600 text-sky-600' : 'text-gray-500 hover:border-b-2 hover:border-b-gray-400'} py-3`} type="button" onClick={(e) => setTable("gudang")}>
+                            <button className={`${table === 'gudang' ? 'border-b-2 border-b-sky-600 text-sky-600' : 'text-gray-500'} py-3`} type="button" onClick={(e) => setTable("gudang")}>
                                 <span>Gudang</span>
                             </button>
                         </li>
@@ -71,7 +71,7 @@ export default function Produk() {
                     </div>
                     <div className="p-2">
                         <p className="text-sm">Total Produk</p>
-                        <h3 className="font-bold text-lg">1</h3>
+                        <h3 className="font-bold text-lg">0</h3>
                     </div>
                 </div>
                 <div className="border border-red-600 rounded">
@@ -80,7 +80,7 @@ export default function Produk() {
                     </div>
                     <div className="p-2">
                         <p className="text-sm">Total Produk</p>
-                        <h3 className="font-bold text-lg">1</h3>
+                        <h3 className="font-bold text-lg">0</h3>
                     </div>
                 </div>
                 <div className="border border-purple-600 rounded">

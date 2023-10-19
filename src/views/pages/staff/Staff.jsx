@@ -1,8 +1,8 @@
 import { Outlet } from "react-router-dom"
-import Sidebar from "../component/Sidebar"
-import Navbar from "../component/Navbar"
+import Sidebar from "../../../component/Sidebar";
+import Navbar from "../../../component/Navbar";
 
-export default function Petugas() {
+export default function Staff() {
     return (
         <div className="h-screen w-screen flex flex-col overflow-y-auto bg-gray-100 scrollbar select-none">
             <Sidebar/>
