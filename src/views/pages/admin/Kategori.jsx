@@ -4,12 +4,16 @@ import { Link } from "react-router-dom"
 
 export default function Kategori() {
     const [dataCategory, setDataCategory] = useState([]);
+    const [id, setId] = useState('');
     let num = 1;
 
     useEffect(() => {
         axios.get('http://127.0.0.1:8000/api/admin/category', {
         }).then(response => {
-            setDataCategory(response.data)
+            setDataCategory(response.data);
+            setId(response.data.id);
+        }).then(res => {
+            console.log(res)
         }).catch(error => {
             console.error(error);
         });
@@ -21,7 +25,7 @@ export default function Kategori() {
             </div>
             <div className="mt-4">
                 <div className="flex justify-between items-center">
-                    <h1 className="text-xl font-medium">Kategori</h1>
+                    <h1 className="text-xl font-medium">List Kategori</h1>
                     <div className="flex gap-2 items-center">
                         <Link to="create" className="bg-sky-500 flex items-center p-1.5 px-3 rounded-md">
                             <span className="text-white font-medium">Create</span>
@@ -46,7 +50,9 @@ export default function Kategori() {
                 {dataCategory.map((row) => (
                     <div key={row.id} className="grid grid-cols-2 p-2 text-xs font-medium text-gray-900 mb-1">
                         <span>{num++}</span>
-                        <span>{row.name}</span>
+                        <Link to={`edit/${row.id}`}>
+                            <span>{row.name}</span>
+                        </Link>
                     </div>
                 ))}
             </div>

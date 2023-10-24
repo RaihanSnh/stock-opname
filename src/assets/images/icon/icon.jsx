@@ -56,7 +56,7 @@ export function UnitIcon() {
 
 export function LogoLoading() {
     return(
-        <svg className="w-20 h-20 fill-sky-500 bounce-fast duration-150" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" enable-background="new 0 0 500 500">
+        <svg className="w-20 h-20 fill-sky-500 animate-bounce duration-150" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" enable-background="new 0 0 500 500">
             <g>
                 <path d="M239.394,10.607c5.833-5.833,15.38-5.833,21.213,0l228.787,228.786c5.833,5.833,5.833,15.38,0,21.213
                     L260.606,489.394c-5.833,5.833-15.379,5.833-21.213,0L110.607,360.606c-5.833-5.833-5.833-15.379,0-21.213l28.786-28.786

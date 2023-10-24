@@ -16,7 +16,7 @@ export default function App() {
 
     return (
         <AuthContext.Provider value={{ auth, setAuth }}>
-            <BrowserRouter basename="/">
+            <BrowserRouter>
                 <Router />
             </BrowserRouter>
         </AuthContext.Provider>

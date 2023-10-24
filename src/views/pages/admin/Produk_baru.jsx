@@ -100,7 +100,7 @@ export default function TambahBarang() {
                             </div> 
                         </div>
                     </div>
-                        <button type="submit" className="w-full p-2 px-5 bg-sky-500 rounded-md text-white font-medium hover:bg-sky-600 transition duration-300 ease-in-out">Kirim</button>
+                        <button type="submit" className="w-full p-2 px-5 bg-sky-500 rounded-md text-white font-medium hover:bg-sky-600 transition duration-300 ease-in-out">Simpan</button>
                 </form>
             </div>
         </>

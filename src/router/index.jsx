@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { AuthContext } from "../App";
 import axios from "axios";
 import Login from "../views/auth/Login";
@@ -21,12 +21,15 @@ import Request from "../views/pages/requester/Request";
 import NotFound from "../views/error/Notfound";
 import Cookies from "universal-cookie";
 import { LoadingComponent } from "../component/Loading";
+import KategoriEdit from "../views/pages/admin/KategoriEdit";
+import UnitEdit from "../views/pages/admin/UnitEdit";
 
 export default function Router() {
     const { auth, setAuth } = useContext(AuthContext);
     const [role, setRole] = useState('');
     const [isLoading, setIsLoading] = useState(true);
     const [dataLoaded, setDataLoaded] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(function() {
         setIsLoading(true);
@@ -36,15 +39,15 @@ export default function Router() {
             }
         }).then(response => {
             setRole(response.data.user.role);
-            setDataLoaded(true);
             console.log(role)
+            setDataLoaded(true);
         }).catch(error => {
             console.error(error);
             setDataLoaded(true);
         }).finally(() => {
             setIsLoading(false);
         });
-    }, []);
+    }, [role]);
 
     return (
         <>
@@ -64,8 +67,10 @@ export default function Router() {
                             <Route path='user/create' element={<UserCreate />} />
                             <Route path='kategori' element={<Kategori />} />
                             <Route path='kategori/create' element={<CreateKategori />} />
+                            <Route path='kategori/edit/:id' element={<KategoriEdit />} />
                             <Route path='unit' element={<Unit />} />
                             <Route path='unit/create' element={<UnitCreate />} />
+                            <Route path='unit/edit/:id' element={<UnitEdit />} />
                             <Route path='laporanmasuk' element={<LaporanMasuk />} />
                             <Route path='laporankeluar' element={<LaporanKeluar />} />
                             <Route path='request' element={<ListRequest />} />

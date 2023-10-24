@@ -47,7 +47,9 @@ export default function Unit() {
                 {dataUnit.map((row) => (
                     <div key={row.id} className="grid grid-cols-2 p-2 text-xs font-medium text-gray-900 mb-1">
                         <span>{num++}</span>
-                        <span>{row.name}</span>
+                        <Link to={`edit/${row.id}`}>
+                            <span>{row.name}</span>
+                        </Link>
                     </div>
                 ))}
             </div>
