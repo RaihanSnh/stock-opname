@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 
-export default function Request() {
+export default function ListRequest() {
     const table = [
     ]
     return(     

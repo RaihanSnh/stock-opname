@@ -53,6 +53,7 @@ export default function Sidebar() {
     const updatedDropdownStates = { ...dropdownStates };
     updatedDropdownStates[dropdownName] = !dropdownStates[dropdownName];
     setDropdownStates(updatedDropdownStates);
+    console.log(localStorage);
   };
 
     const [isOpen, setIsOpen] = useState(false);

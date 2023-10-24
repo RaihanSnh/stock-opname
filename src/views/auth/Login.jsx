@@ -3,6 +3,7 @@ import axios from 'axios';
 import Cookies from 'universal-cookie';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../App';
+import { data } from 'autoprefixer';
 
 const EyeIconOpen = () => (
   <svg className="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 14">
@@ -53,7 +54,7 @@ export default function Login() {
       case 'requester':
         navigate('/dashboard/requester');
         break;
-        default:
+      default:
         navigate('/');
         break;
     }
@@ -76,18 +77,17 @@ export default function Login() {
       setLoading(false);
       console.log(`Bearer ${coockies.get("Authorization")}`)
       coockies.set('Authorization', response.data.token);
-
-      axios.get('http://127.0.0.1:8000/api/auth/user', {
+      localStorage.setItem('auth', JSON.stringify(response.data.token));
+      axios.get('http://127.0.0.1:8000/api/auth/getuser', {
         headers : {
           Authorization: `Bearer ${response.data.token}`
         }
       })
       .then(response => {
         setAuth(response.data.user);
-        localStorage.setItem('auth', JSON.stringify(response.data.user));
+        console.log(response)
         const role = response.data.user.role;
         handleRedirect(role);
-        return response;
       });
     })
     .catch((error) => {
