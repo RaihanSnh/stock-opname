@@ -55,7 +55,7 @@ export default function TambahBarang() {
             </div>
             <div className="">
                 <h1 className="text-lg font-medium">Info Produk</h1>
-                <form action="" className="mt-6 space-y-4">
+                <form onSubmit={handleSubmit} className="mt-6 space-y-4">
                     <div className="flex space-x-4">
                         <div className="space-y-4 flex-1 flex-col">
                             <div className="group flex items-center">

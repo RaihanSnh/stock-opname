@@ -3,32 +3,14 @@ import axios from 'axios';
 import Cookies from 'universal-cookie';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../App';
-import { data } from 'autoprefixer';
-
-const EyeIconOpen = () => (
-  <svg className="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 14">
-    <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-      <path d="M10 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
-      <path d="M10 13c4.97 0 9-2.686 9-6s-4.03-6-9-6-9 2.686-9 6 4.03 6 9 6Z"/>
-    </g>
-  </svg>
-);
-  
-const EyeIconClosed = () => (
-  <svg className="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
-  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1.933 10.909A4.357 4.357 0 0 1 1 9c0-1 4-6 9-6m7.6 3.8A5.068 5.068 0 0 1 19 9c0 1-3 6-9 6-.314 0-.62-.014-.918-.04M2 17 18 1m-5 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-</svg>
-);
 
 export default function Login() {
-  const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
   const [message, setMessage] = useState('');
   const coockies = new Cookies();
-  const {auth, setAuth} = useContext(AuthContext);
+  const {setAuth} = useContext(AuthContext);
 
   const handleEmail = (e) => {
     setEmail(e.target.value);
@@ -36,10 +18,6 @@ export default function Login() {
 
   const handlePassword = (e) => {
     setPassword(e.target.value);
-  };
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
   };
 
   const navigate = useNavigate()
@@ -58,14 +36,14 @@ export default function Login() {
         navigate('/');
         break;
     }
-  } 
+  }
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError(null);
 
-    axios.get('http://127.0.0.1:8000/sanctum/csrf-cookie')
+
+    axios.get('http://127.0.0.1:8000/sanctum/csrf-cookie');
 
     axios.post('http://127.0.0.1:8000/api/auth/login', { 
       email, 
@@ -74,27 +52,25 @@ export default function Login() {
       withCredentials: true
     })
     .then((response) => {
-      setLoading(false);
-      console.log(`Bearer ${coockies.get("Authorization")}`)
       coockies.set('Authorization', response.data.token);
       localStorage.setItem('auth', JSON.stringify(response.data.token));
       axios.get('http://127.0.0.1:8000/api/auth/getuser', {
         headers : {
           Authorization: `Bearer ${response.data.token}`
         }
-      })
-      .then(response => {
-        setAuth(response.data.user);
-        console.log(response)
-        const role = response.data.user.role;
-        handleRedirect(role);
-      });
+        })
+        .then(response => {
+          setAuth(response.data.user);
+          console.log(response)
+          const role = response.data.user.role;
+          handleRedirect(role);
+        });
     })
     .catch((error) => {
       console.error(error);
       setMessage(error.response.data.message);
       setLoading(false);
-    });
+    })
   };
   
   return (
@@ -133,7 +109,10 @@ export default function Login() {
           <p className='text-red-900 text-sm italic'>{message}</p>
           </div>
           <div>
-            <input type="submit" value={"Login"} className="w-full bg-blue-500 text-white text-sm font-medium px-5 py-2.5 rounded hover:bg-blue-600"/>
+            <input 
+              type={loading ? "button" : "submit"} 
+              value={loading ? ('Loading...') : ('Login')} 
+              className="w-full bg-blue-500 text-white text-sm font-medium px-5 py-2.5 rounded hover:bg-blue-600"/>
           </div>
         </form>
       </div>

@@ -7,13 +7,12 @@ import Cookies from "universal-cookie";
 
 export default function Navbar() {
     const navigate = useNavigate();
-    const {auth, setAuth} = useContext(AuthContext);
+    const { setAuth } = useContext(AuthContext);
 
-    const handleLogout = async (e) => {
-        e.preventDefault();
+    const handleLogout = async () => {
         setAuth(null);
 
-        axios.post('http://127.0.0.1:8000/api/auth/logout', {}, {
+        await axios.post('http://127.0.0.1:8000/api/auth/logout', {}, {
             withCredentials: true,
             headers: {
                 Authorization: `Bearer ${new Cookies().get('Authorization')}`
