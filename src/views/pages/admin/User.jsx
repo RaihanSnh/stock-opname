@@ -1,8 +1,23 @@
-import { Link } from "react-router-dom"
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom"
 
 export default function User() {
-    const table = [
-    ]
+    const [dataUser, setDataUser] = useState([]);
+    const { role } = useParams();
+    let num = 1;
+
+    useEffect(() => {
+        console.log(role)
+        axios.get('http://127.0.0.1:8000/api/admin/user', {
+        }).then(response => {
+        const filteredUsers = response.data.filter(user => user.role === role);
+        setDataUser(filteredUsers);
+        }).catch(error => {
+            console.error(error);
+        });
+    }, [role]);
+
     return(     
         <>
             <div className="flex items-center justify-between">
@@ -28,17 +43,22 @@ export default function User() {
                 </div>
             </div>  
             <div className="w-full mt-4 overflow-auto scrollbar-gray">
-                <div className="grid grid-cols-4 p-2 text-xs font-bold text-gray-900 bg-gray-100 rounded mb-1 sticky top-0">
+                <div className="grid grid-cols-5 p-2 text-xs font-bold text-gray-900 bg-gray-100 rounded mb-1 sticky top-0">
                     <span>No</span>
                     <span>NIP</span>
                     <span>Nama</span>
+                    <span>Role</span>
                     <span>Email</span>
                 </div>
-                {table.map((row) => (
-                    <div key={row.no} className="grid grid-cols-4 p-2 text-xs font-medium text-gray-900 mb-1">
-                        {Object.keys(row).map((key) => (
-                            <span key={key}>{row[key]}</span>
-                        ))}
+                {dataUser.map((row) => (
+                    <div key={row.id} className="grid grid-cols-5 p-2 text-xs font-medium text-gray-900 mb-1">
+                        <span>{num++}</span>
+                        <span>{row.ein}</span>
+                        <Link to={`edit/${row.id}`}>
+                            <span>{row.name}</span>
+                        </Link>
+                        <span>{row.role}</span>
+                        <span>{row.email}</span>
                     </div>
                 ))}
             </div>

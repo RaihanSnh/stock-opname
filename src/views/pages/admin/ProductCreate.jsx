@@ -8,6 +8,14 @@ export default function TambahBarang() {
     const [total, setTotal] = useState('');
     const [detailItem, setDetailItem] = useState('');
 
+    function generateCode(no) {
+        const paddedNo = String(no).padStart(3, '0');
+        return `ABC${paddedNo}`;
+    }
+
+    const no = 1;
+    const code = generateCode(no);
+
     const handleName = (e) => {
         setName(e.target.value);
     };
@@ -20,8 +28,11 @@ export default function TambahBarang() {
     const handleTotal = (e) => {
         setTotal(e.target.value);
     };
-    const handleDetailItem = (e) => {
-        setDetailItem(e.target.value);
+    const handleCategory = (e) => {
+        setCategory(e.target.value);
+    };
+    const handleUnit = (e) => {
+        setUnit(e.target.value);
     };
 
     const navigate = useNavigate()
@@ -30,10 +41,11 @@ export default function TambahBarang() {
         e.preventDefault();
       
         await axios.post('http://127.0.0.1:8000/api/admin/item', { 
-            name
+            name, description, series, total, kategori, unit
         }).then(response => {
             console.log(response);
             setMessage(response.data.message);
+            setNo(no + 1);
             navigate(-1)
         }).catch(error => {
             console.error(error);
@@ -60,7 +72,11 @@ export default function TambahBarang() {
                         <div className="space-y-4 flex-1 flex-col">
                             <div className="group flex items-center">
                                 <label htmlFor="kode" className="w-64">Kode</label>
-                                <input type="text" className="w-full border rounded p-2 border-gray-300 outline-none cursor-not-allowed" readOnly disabled/>
+                                <input 
+                                    type="text" 
+                                    className="w-full border rounded p-2 border-gray-300 outline-none cursor-not-allowed"
+                                    value={code} 
+                                    readOnly disabled/>
                             </div>
                             <div className="group flex items-center">
                                 <label htmlFor="kode" className="w-64">Nama Produk</label>

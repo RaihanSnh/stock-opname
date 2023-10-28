@@ -1,17 +1,28 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import TableBarang from "./table_barang"
 import TableGudang from "./table_gudang";
 
 export default function Produk() {
-    const [table, setTable] = useState("barang");
-
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [active, setActive] = useState(null);
 
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);
     };
-    
+
+    const handleClick = (value) => {
+        setActive(value);
+        localStorage.setItem('activeLink', value);
+    };
+
+    useEffect(() => {
+        const storedActiveLink = localStorage.getItem('activeLink');
+        if (storedActiveLink) {
+            setActive(storedActiveLink);
+        }
+    }, []);
+
     return(
         <>
             <div className="mb-4">
@@ -43,14 +54,14 @@ export default function Produk() {
                 <div className="my-4">
                     <ul className="flex gap-4">
                         <li>
-                            <button className={`${table === 'barang' ? 'border-b-2 border-b-sky-600 text-sky-600' : 'text-gray-500'} py-3`} type="button" onClick={(e) => setTable("barang")}>
+                            <NavLink to='barang' className={`${active === 'barang' ? 'border-b-2 border-b-sky-600 text-sky-600' : 'text-gray-500'} py-3`} type="button" onClick={() => handleClick('barang')}>
                                 <span>Barang</span>
-                            </button>
+                            </NavLink>
                         </li>
                         <li>
-                            <button className={`${table === 'gudang' ? 'border-b-2 border-b-sky-600 text-sky-600' : 'text-gray-500'} py-3`} type="button" onClick={(e) => setTable("gudang")}>
+                            <NavLink to='gudang' className={`${active === 'gudang' ? 'border-b-2 border-b-sky-600 text-sky-600' : 'text-gray-500'} py-3`} type="button" onClick={() => handleClick('gudang')}>
                                 <span>Gudang</span>
-                            </button>
+                            </NavLink>
                         </li>
                     </ul>
                 </div>
@@ -93,12 +104,7 @@ export default function Produk() {
                     </div>
                 </div>
             </div>
-            {
-                table == "barang" ?
-                (<TableBarang/>)
-                :
-                (<TableGudang/>)
-            }
+            {<Outlet/>}
         </>
     )
 }

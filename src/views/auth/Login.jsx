@@ -24,16 +24,13 @@ export default function Login() {
   const handleRedirect = (role) => {
     switch (role) {
       case 'admin':
-        navigate('/dashboard/admin');
+        navigate('/dashboard/admin/barang');
         break;
       case 'warehouse_staff':
-        navigate('/dashboard/staff');
+        navigate('/dashboard/staff/barang');
         break;
       case 'requester':
         navigate('/dashboard/requester');
-        break;
-      default:
-        navigate('/');
         break;
     }
   }
@@ -54,6 +51,7 @@ export default function Login() {
     .then((response) => {
       coockies.set('Authorization', response.data.token);
       localStorage.setItem('auth', JSON.stringify(response.data.token));
+      localStorage.setItem('activeLink', 'barang')
       axios.get('http://127.0.0.1:8000/api/auth/getuser', {
         headers : {
           Authorization: `Bearer ${response.data.token}`
@@ -74,7 +72,7 @@ export default function Login() {
   };
   
   return (
-    <div className="bg-gray-50 flex items-center justify-center h-screen">
+    <div className="bg-gray-50 flex items-center justify-center fixed z-50x inset-0">
       <div className="bg-white p-8 space-y-6 rounded-lg shadow-md w-96">
         <h1 className="text-3xl font-bold text-gray-900">Login</h1>
         <form className="space-y-4" onSubmit={handleLogin} method="POST">

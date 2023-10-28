@@ -8,31 +8,36 @@ export const AuthContext = React.createContext();
 
 export default function App() {
     const [auth, setAuth] = useState(null);
+    const [role, setRole] = useState('');
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const token = new Cookies().get("Authorization");
-                const response = await axios.get("http://127.0.0.1:8000/api/auth/getuser", {
-                    withCredentials: true,
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-                setAuth(response.data.user);
-                console.log(auth);
-                console.log(response.data.user.role)
-            } catch (error) {
-                console.error(error);
-            }
-        };
-        fetchUser();
-    }, []);
+        setLoading(true);
+        const token = new Cookies().get("Authorization");
+        axios.get("http://127.0.0.1:8000/api/auth/getuser", {
+            withCredentials: true,
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }).then(response => {
+            setAuth(true);
+            setRole(response.data.user.role);
+            console.log(auth);
+            console.log(response.data.user.role);
+        }).catch(error => {
+            console.error(error);
+        }).finally(() => {
+            setLoading(false);
+        });
+    }, [auth, role]);
 
     return (
         <AuthContext.Provider value={{ auth, setAuth }}>
             <BrowserRouter>
-                <Router role={auth?.role}/>
+                <Router 
+                role={role}
+                loading={loading}
+                />
             </BrowserRouter>
         </AuthContext.Provider>
     );
