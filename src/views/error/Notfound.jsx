@@ -1,65 +1,41 @@
-import React, { useState, useEffect } from 'react';
-import { useSpring, animated, config } from 'react-spring';
-import { useDrag } from 'react-use-gesture';
+import { motion } from 'framer-motion';
 import logo from "../../assets/images/logo-main.svg";
-import { useNavigate } from 'react-router-dom';
-// import {WaveBottom, WaveTop} from "../../assets/images/waves/wave";
+import { useNavigate } from "react-router-dom";
+import { useRef } from 'react';
 
 export default function NotFound() {
-    const [isDragging, setDragging] = useState(false);
-    const [hasBeenDragged, setHasBeenDragged] = useState(false);
-    const [direction, setDirection] = useState(1); // 1 for down, -1 for up
-    const [lastX, setLastX] = useState(0);
-    const [lastY, setLastY] = useState(0);
     const navigate = useNavigate();
-    const [{ x, y }, set] = useSpring(() => ({ x: 0, y: 0, config: config.slow }));
-
-    const bind = useDrag(({ down, movement: [mx, my], event }) => {
-        event.preventDefault();
-        setDragging(down);
-        if (down) {
-            if (!hasBeenDragged) {
-                setHasBeenDragged(true);
-            }
-            let newY = Math.min(lastY + my, window.innerHeight - 450); // Prevent the logo from going below the bottom of the viewport
-            set({ x: mx + lastX, y: newY });
-        } else {
-            let newY = Math.min(my + lastY, window.innerHeight - 450); // Prevent the logo from going below the bottom of the viewport
-            setLastX(mx + lastX);
-            setLastY(newY);
-        }
-    });
-
-    useEffect(() => {
-        if (!isDragging && hasBeenDragged) {
-            let newY = Math.min(lastY, window.innerHeight - 450);
-            set({ y: newY });
-        }
-    }, [isDragging]);
+    const constraintsRef = useRef(null);
 
     const redirectBack = () => {
         navigate(-1);
     }
 
     return (
-        <div className="bg-gradient-to-r from-white via-sky-500 to-white min-h-screen overflow-hidden h-screen">
-            {/* <WaveTop className="absolute top-0 left-0 w-full h-full" /> */}
-            <div className="fixed inset-0 z-50 flex flex-col items-center justify-center space-y-8">
-                <div className="text-white text-center font-bold text-9xl flex justify-center items-center">
-                    <span className="text-9xl">4</span>
-                    <animated.div {...bind()} style={{ x, y }}>
-                        <img src={logo} alt="" className={`inline-block w-32 h-32 animate-bounce ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`} />
-                    </animated.div>
-                    <span className="text-9xl">4</span>
+        <div ref={constraintsRef} className="bg-gradient-to-r from-white via-sky-600 to-white min-h-screen overflow-hidden h-screen flex items-center justify-center">
+            <div className="text-center">
+                <div className="text-white font-bold text-9xl flex justify-center items-center mb-10">
+                    <span className="text-9xl mr-5">4</span>
+                    <motion.div
+                        drag
+                        dragConstraints={constraintsRef}
+                        dragElastic={1}
+                        transition={{
+                            repeat: Infinity,
+                            repeatType: "reverse",
+                            type: "inertia",
+                            stiffness: 10, // tinggi
+                            damping: 1 // rendah
+                        }}
+                        className="cursor-grab"
+                    >
+                        <img src={logo} alt="" className="inline-block w-32 h-32 animate-bounce" style={{ pointerEvents: 'none' }} />
+                    </motion.div>
+                    <span className="text-9xl ml-5">4</span>
                 </div>
-                <div className="text-white text-center font-bold text-4xl">
-                    Oops! We can't find the page you're looking for.
-                </div>
-                <button className='p-2 w-56 bg-white rounded text-sky-500 font-medium' onClick={redirectBack}>
-                    Return back
-                </button>
+                <div className="text-white font-bold text-4xl mb-4"> Oops! We can’t find the page you’re looking for. </div>
+                <button onClick={redirectBack} className="w-1/2 px-12 py-3 bg-white text-sky-600 rounded border border-gray-100 shadow-lg transform transition duration-500 hover:bg-gray-200 hover:text-sky-800 hover:scale-110 hover:shadow-xl animate-pulse">Return</button>
             </div>
-            {/* <WaveBottom className="absolute bottom-0 left-0 w-full h-full" /> */}
         </div>
     );
 }

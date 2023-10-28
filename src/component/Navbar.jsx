@@ -25,6 +25,14 @@ export default function Navbar() {
             console.log(response);
             navigate('/')
         });
+
+        new Cookies().remove('Authorization')
+            .then ((response) => {
+                console.log(response);
+                localStorage.removeItem('auth');
+                new Cookies().remove('Authorization')
+                navigate('/')
+            });
     }
     return(   
         <nav className="w-full bg-white shadow-md sticky top-0 z-10">
