@@ -19,8 +19,10 @@ export default function Navbar() {
             }
         })
         .then ((response) => {
-            console.log(response);
+            new Cookies().remove('Authorization')
             localStorage.removeItem('auth');
+            localStorage.removeItem('activeLink');
+            console.log(response);
             navigate('/')
         });
 

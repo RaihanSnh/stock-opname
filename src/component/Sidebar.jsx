@@ -2,13 +2,31 @@ import React, {useState} from "react";
 import { Link, NavLink } from "react-router-dom"
 import logo from "../assets/images/logo-main.svg"
 import {HomeIcon, LaporanIcon, UserIcon, CategoryIcon, UnitIcon} from "../assets/images/icon/icon"
+import axios from "axios";
+import Cookies from "universal-cookie";
 
 export default function Sidebar() {
+    const token = new Cookies().get("Authorization");
+    const [role, setRole] = useState('');
+    const activeLink = localStorage.getItem('activeLink');
+
+    axios.get("http://127.0.0.1:8000/api/auth/getuser", {
+        withCredentials: true,
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }).then(response => {
+        setRole(response.data.user.role);
+        console.log(role);
+    }).catch(error => {
+        console.error(error);
+    });
+
     const navigation = [
         { 
             icon:<HomeIcon/>, 
             name: 'Dashboard', 
-            href: 'admin'},
+            href: `${role}/${activeLink}`},
         { 
             icon:<CategoryIcon/>, 
             name: 'Kategori', 
@@ -24,11 +42,11 @@ export default function Sidebar() {
                 { 
                     icon:<UserIcon/>, 
                     name: 'Petugas', 
-                    href: 'petugas'},
+                    href: 'user/staff'},
                 { 
                     icon:<UserIcon/>, 
                     name: 'Pemohon', 
-                    href: 'pemohon'}
+                    href: 'user/requester'}
             ]
         },
         { 
@@ -53,7 +71,6 @@ export default function Sidebar() {
     const updatedDropdownStates = { ...dropdownStates };
     updatedDropdownStates[dropdownName] = !dropdownStates[dropdownName];
     setDropdownStates(updatedDropdownStates);
-    console.log(localStorage);
   };
 
     const [isOpen, setIsOpen] = useState(false);

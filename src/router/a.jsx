@@ -98,7 +98,10 @@ export default function Router({ role }) {
                             <Route path="requester" element={<Request />} />
                         </Route>
                     )}
-                    {auth && dataLoaded && (
+                    {/* {timeOut && (
+                        <Route path="*" element={<TimeOut />} />
+                    )} */}
+                    {dataLoaded && (
                         <Route path="*" element={<NotFound />} />
                     )}
                 </Routes>
