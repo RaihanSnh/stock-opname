@@ -4,20 +4,23 @@ import { Link } from "react-router-dom"
 
 export default function Kategori() {
     const [dataCategory, setDataCategory] = useState([]);
-    const [id, setId] = useState('');
     let num = 1;
 
-    useEffect(() => {
-        axios.get('http://127.0.0.1:8000/api/admin/category', {
+    const fetchData = async () => {
+        await axios.get('http://127.0.0.1:8000/api/admin/category', {
         }).then(response => {
             setDataCategory(response.data);
-            setId(response.data.id);
         }).then(res => {
             console.log(res)
         }).catch(error => {
             console.error(error);
         });
-    }, []);
+    };
+
+    useEffect(() => {
+        fetchData();
+    })
+
     return(
         <>
             <div className="flex items-center justify-between">

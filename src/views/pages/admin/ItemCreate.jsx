@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom"
 
-export default function TambahBarang() {
+export default function ItemCreate() {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [series, setSeries] = useState('');

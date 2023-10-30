@@ -7,16 +7,19 @@ export default function User() {
     const { role } = useParams();
     let num = 1;
 
-    useEffect(() => {
-        console.log(role)
-        axios.get('http://127.0.0.1:8000/api/admin/user', {
+    const fetchData = async () => {
+        await axios.get('http://127.0.0.1:8000/api/admin/user', {
         }).then(response => {
-        const filteredUsers = response.data.filter(user => user.role === role);
-        setDataUser(filteredUsers);
+            const filteredUsers = response.data.filter(user => user.role === role);
+            setDataUser(filteredUsers);
         }).catch(error => {
             console.error(error);
         });
-    }, [role]);
+    };
+
+    useEffect(() => {
+        fetchData();
+    })
 
     return(     
         <>
@@ -27,7 +30,7 @@ export default function User() {
                 <div className="flex justify-between items-center">
                     <h1 className="text-xl font-medium">User</h1>
                     <div className="flex gap-2 items-center">
-                        <Link to="create" className="bg-sky-500 flex items-center p-1.5 px-3 rounded-md">
+                        <Link to="./../create" className="bg-sky-500 flex items-center p-1.5 px-3 rounded-md">
                             <span className="text-white font-medium">Create</span>
                         </Link>
                         <label for="table-search" className="sr-only">Search</label>

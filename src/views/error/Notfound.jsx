@@ -24,8 +24,8 @@ export default function NotFound() {
                             repeat: Infinity,
                             repeatType: "reverse",
                             type: "inertia",
-                            stiffness: 10, // tinggi
-                            damping: 1 // rendah
+                            stiffness: 10,
+                            damping: 1
                         }}
                         className="cursor-grab"
                     >
@@ -34,7 +34,7 @@ export default function NotFound() {
                     <span className="text-9xl ml-5">4</span>
                 </div>
                 <div className="text-white font-bold text-4xl mb-4"> Oops! We can’t find the page you’re looking for. </div>
-                <button onClick={redirectBack} className="w-1/2 px-12 py-3 bg-white text-sky-600 rounded border border-gray-100 shadow-lg transform transition duration-500 hover:bg-gray-200 hover:text-sky-800 hover:scale-110 hover:shadow-xl animate-pulse">Return</button>
+                <button onClick={redirectBack} className="w-1/2 px-12 py-3 bg-white text-sky-600 rounded border border-gray-100 shadow-lg transform transition duration-500 hover:bg-gray-100 hover:text-sky-600 hover:scale-105 hover:shadow-xl">Return</button>
             </div>
         </div>
     );

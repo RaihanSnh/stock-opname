@@ -35,7 +35,7 @@ export default function UnitEdit() {
             })
             .catch(error => {
                 console.error(error);
-                setMessage(error.response.data.message);
+                // setMessage(error.response.data.message);
             });
     };
 

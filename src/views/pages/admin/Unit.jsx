@@ -6,14 +6,18 @@ export default function Unit() {
     const [dataUnit, setDataUnit] = useState([]);
     let num = 1;
 
-    useEffect(() => {
-        axios.get('http://127.0.0.1:8000/api/admin/unit', {
+    const fetchData = async () => {
+        await axios.get('http://127.0.0.1:8000/api/admin/unit', {
         }).then(response => {
             setDataUnit(response.data)
         }).catch(error => {
             console.error(error);
         });
-    }, []);
+    };
+
+    useEffect(() => {
+        fetchData();
+    })
 
     return(
         <>

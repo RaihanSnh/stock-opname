@@ -10,23 +10,23 @@ export default function Sidebar() {
     const [role, setRole] = useState('');
     const activeLink = localStorage.getItem('activeLink');
 
-    axios.get("http://127.0.0.1:8000/api/auth/getuser", {
-        withCredentials: true,
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    }).then(response => {
-        setRole(response.data.user.role);
-        console.log(role);
-    }).catch(error => {
-        console.error(error);
-    });
+    // axios.get("http://127.0.0.1:8000/api/auth/getuser", {
+    //     withCredentials: true,
+    //     headers: {
+    //         Authorization: `Bearer ${token}`,
+    //     },
+    // }).then(response => {
+    //     setRole(response.data.user.role);
+    //     console.log(role);
+    // }).catch(error => {
+    //     console.error(error);
+    // });
 
     const navigation = [
         { 
             icon:<HomeIcon/>, 
             name: 'Dashboard', 
-            href: `${role}/${activeLink}`},
+            href: `admin/${activeLink}`},
         { 
             icon:<CategoryIcon/>, 
             name: 'Kategori', 
@@ -42,7 +42,7 @@ export default function Sidebar() {
                 { 
                     icon:<UserIcon/>, 
                     name: 'Petugas', 
-                    href: 'user/staff'},
+                    href: 'user/warehouse_staff'},
                 { 
                     icon:<UserIcon/>, 
                     name: 'Pemohon', 
@@ -102,7 +102,7 @@ export default function Sidebar() {
             onMouseLeave={handleSidebarLeave}
             className={`${isOpen ? "w-64" : "w-20"} fixed h-screen z-50`}
           >
-            <div className="h-full overflow-y-auto bg-sky-500 whitespace-nowrap transition-none duration-0">
+            <div className="h-screen overflow-y-auto bg-sky-500 whitespace-nowrap transition-none duration-0">
               <Link to="/dashboard/admin" className={`${isOpen ? "" : "justify-center"} text-white flex items-center border-b p-5 h-16 gap-1.5`}>
                 <button onClick={toggleSidebar}>
                   <img src={logo} alt="" className="w-7 h-7" />
@@ -148,7 +148,7 @@ export default function Sidebar() {
                     ) : (
                       <NavLink key={item.name} to={item.href} className={({ isActive }) => {
                         return (
-                          `w-full p-2 flex text-white rounded hover-bg-sky-600 transition duration-300 ease-in-out gap-2       
+                          `w-full p-2 flex text-white rounded hover:bg-sky-600 transition duration-300 ease-in-out gap-2       
                           ${!isActive ? 'bg-sky-500' : 'bg-sky-600'}         
                           ${isOpen ? '' : 'justify-center'}`
                         );

@@ -9,7 +9,7 @@ import Login from "../views/auth/Login";
 // Admin
 import Admin from "../views/pages/admin/Admin";
 import Produk from "../views/pages/admin/Produk";
-import TambahBarang from "../views/pages/admin/ProductCreate";
+import ItemCreate from "../views/pages/admin/ItemCreate";
 import User from "../views/pages/admin/User";
 import Unit from "../views/pages/admin/Unit";
 import Kategori from "../views/pages/admin/Kategori";
@@ -34,27 +34,9 @@ import TableBarang from "../views/pages/admin/table_barang";
 import TableGudang from "../views/pages/admin/table_gudang";
 import WarehouseCreate from "../views/pages/admin/WarehouseCreat";
 import WarehouseEdit from "../views/pages/admin/WarehouseEdit";
-import TimeOut from "../views/error/Timeout";
-import Sidebar from "../component/Sidebar";
-import Navbar from "../component/Navbar";
 
-export default function Router({ role }) {
+export default function Router({ role, dataLoaded }) {
     const { auth } = useContext(AuthContext);
-    const [dataLoaded, setDataLoaded] = useState(false);
-    // const [timeOut, setTimeOut] = useState(false);
-    // const [notFound, setNotFound] = useState(false);
-
-    useEffect(() => {
-        setTimeout(() => {
-            setDataLoaded(true);
-        }, 1000);
-    }, []);
-
-    // useEffect(() => {
-    //     setTimeout(() => {
-    //         setTimeOut(true);
-    //     }, 5000);
-    // }, []);
 
     return (
         <>
@@ -70,11 +52,12 @@ export default function Router({ role }) {
                                     <Route path="barang" element={<TableBarang/>}/>
                                     <Route path="gudang" element={<TableGudang/>}/>
                                 </Route>
-                                <Route path='admin/tambahbarang' element={<TambahBarang />} />
+                                <Route path='admin/tambahbarang' element={<ItemCreate />} />
                                 <Route path='admin/tambahgudang' element={<WarehouseCreate />} />
                                 <Route path='admin/gudang/edit/:id' element={<WarehouseEdit />} />
                                 <Route path='user/:role' element={<User />} />
                                 <Route path='user/create' element={<UserCreate />} />
+                                <Route path='user/:role/edit/:id' element={<UserCreate />} />
                                 <Route path='kategori' element={<Kategori />} />
                                 <Route path='kategori/create' element={<CreateKategori />} />
                                 <Route path='kategori/edit/:id' element={<KategoriEdit />} />
@@ -102,7 +85,7 @@ export default function Router({ role }) {
                         <Route path="*" element={<NotFound />} />
                     )}
                 </Routes>
-            )};
+            )}
         </>
     );
 }

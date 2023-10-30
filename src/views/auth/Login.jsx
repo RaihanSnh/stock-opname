@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import { useNavigate } from 'react-router-dom';
@@ -9,8 +9,10 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
-  const coockies = new Cookies();
   const {setAuth} = useContext(AuthContext);
+  const navigate = useNavigate()
+
+  const cookies = new Cookies();
 
   const handleEmail = (e) => {
     setEmail(e.target.value);
@@ -20,25 +22,21 @@ export default function Login() {
     setPassword(e.target.value);
   };
 
-  const navigate = useNavigate()
-  const handleRedirect = (role) => {
-    switch (role) {
-      case 'admin':
-        navigate('/dashboard/admin/barang');
-        break;
-      case 'warehouse_staff':
-        navigate('/dashboard/staff/barang');
-        break;
-      case 'requester':
-        navigate('/dashboard/requester');
-        break;
+  useEffect ( () => {
+    const token = cookies.get ('Authorization');
+    if (token) {
+      cookies.remove ('Authorization');
+      localStorage.removeItem('auth');
+      localStorage.removeItem('activeLink');
+      console.log ('token terhapus');
+      window.location.reload();
     }
-  }
+  }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setLoading(true);
 
+    setLoading(true);
 
     axios.get('http://127.0.0.1:8000/sanctum/csrf-cookie');
 
@@ -49,7 +47,7 @@ export default function Login() {
       withCredentials: true
     })
     .then((response) => {
-      coockies.set('Authorization', response.data.token);
+      cookies.set('Authorization', response.data.token);
       localStorage.setItem('auth', JSON.stringify(response.data.token));
       localStorage.setItem('activeLink', 'barang')
       axios.get('http://127.0.0.1:8000/api/auth/getuser', {
@@ -70,6 +68,20 @@ export default function Login() {
       setLoading(false);
     })
   };
+
+  const handleRedirect = (role) => {
+    switch (role) {
+      case 'admin':
+        navigate('/dashboard/admin/barang');
+        break;
+      case 'warehouse_staff':
+        navigate('/dashboard/staff/barang');
+        break;
+      case 'requester':
+        navigate('/dashboard/requester');
+        break;
+    }
+  }
   
   return (
     <div className="bg-gray-50 flex items-center justify-center fixed z-50x inset-0">

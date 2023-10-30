@@ -22,7 +22,6 @@ export default function UnitCreate() {
             navigate(-1)
         }).catch(error => {
             console.error(error);
-            setMessage(response.data.message);
         });
     }
 

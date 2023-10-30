@@ -1,6 +1,13 @@
 export default function TableBarang() {
     const table = [
         { no: '1', kode: 'ABC-2', barang: 'Mouse', jumlah: '10pcs', seri: 'Logitech', Tanggal: '00-00-0000' },
+        { no: '1', kode: 'ABC-2', barang: 'Mouse', jumlah: '10pcs', seri: 'Logitech', Tanggal: '00-00-0000' },
+        { no: '1', kode: 'ABC-2', barang: 'Mouse', jumlah: '10pcs', seri: 'Logitech', Tanggal: '00-00-0000' },
+        { no: '1', kode: 'ABC-2', barang: 'Mouse', jumlah: '10pcs', seri: 'Logitech', Tanggal: '00-00-0000' },
+        { no: '1', kode: 'ABC-2', barang: 'Mouse', jumlah: '10pcs', seri: 'Logitech', Tanggal: '00-00-0000' },
+        { no: '1', kode: 'ABC-2', barang: 'Mouse', jumlah: '10pcs', seri: 'Logitech', Tanggal: '00-00-0000' },
+        { no: '1', kode: 'ABC-2', barang: 'Mouse', jumlah: '10pcs', seri: 'Logitech', Tanggal: '00-00-0000' },
+        { no: '1', kode: 'ABC-2', barang: 'Mouse', jumlah: '10pcs', seri: 'Logitech', Tanggal: '00-00-0000' },
     ]
     
     return(
