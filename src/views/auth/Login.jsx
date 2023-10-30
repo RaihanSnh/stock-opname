@@ -1,18 +1,17 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../App';
 
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
+  const coockies = new Cookies();
   const {setAuth} = useContext(AuthContext);
-  const navigate = useNavigate()
-
-  const cookies = new Cookies();
 
   const handleEmail = (e) => {
     setEmail(e.target.value);
@@ -22,21 +21,26 @@ export default function Login() {
     setPassword(e.target.value);
   };
 
-  useEffect ( () => {
-    const token = cookies.get ('Authorization');
-    if (token) {
-      cookies.remove ('Authorization');
-      localStorage.removeItem('auth');
-      localStorage.removeItem('activeLink');
-      console.log ('token terhapus');
-      window.location.reload();
+  const navigate = useNavigate()
+  const handleRedirect = (role) => {
+    switch (role) {
+      case 'admin':
+        navigate('/dashboard/admin/barang');
+        break;
+      case 'warehouse_staff':
+        navigate('/dashboard/staff/barang');
+        break;
+      case 'requester':
+        navigate('/dashboard/requester');
+        break;
     }
-  }, []);
+  }
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
     setLoading(true);
+
 
     axios.get('http://127.0.0.1:8000/sanctum/csrf-cookie');
 
@@ -47,7 +51,7 @@ export default function Login() {
       withCredentials: true
     })
     .then((response) => {
-      cookies.set('Authorization', response.data.token);
+      coockies.set('Authorization', response.data.token);
       localStorage.setItem('auth', JSON.stringify(response.data.token));
       localStorage.setItem('activeLink', 'barang')
       axios.get('http://127.0.0.1:8000/api/auth/getuser', {
@@ -68,28 +72,17 @@ export default function Login() {
       setLoading(false);
     })
   };
-
-  const handleRedirect = (role) => {
-    switch (role) {
-      case 'admin':
-        navigate('/dashboard/admin/barang');
-        break;
-      case 'warehouse_staff':
-        navigate('/dashboard/staff/barang');
-        break;
-      case 'requester':
-        navigate('/dashboard/requester');
-        break;
-    }
-  }
   
   return (
-    <div className="bg-gray-50 flex items-center justify-center fixed z-50x inset-0">
+    <div className="bg-gray-50 flex items-center justify-center h-screen">
       <div className="bg-white p-8 space-y-6 rounded-lg shadow-md w-96">
         <h1 className="text-3xl font-bold text-gray-900">Login</h1>
         <form className="space-y-4" onSubmit={handleLogin} method="POST">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-900">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-900"
+            >
               Email
             </label>
             <input
@@ -100,15 +93,17 @@ export default function Login() {
               placeholder="user@gmail.com"
               value={email}
               onChange={handleEmail}
-            >
-            </input>
+            ></input>
           </div>
           <div className="relative w-full inline-block">
-            <label htmlFor="password" className="block text-sm font-medium text-gray-900">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-900"
+            >
               Password
             </label>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               id="password"
               name="password"
               className="w-full py-1 border-b border-gray-300 text-gray-900 text-sm outline-none focus:border-black placeholder:text-gray-400"
@@ -116,13 +111,20 @@ export default function Login() {
               value={password}
               onChange={handlePassword}
             />
-          <p className='text-red-900 text-sm italic'>{message}</p>
+            <span
+              className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer select-none"
+              onClick={togglePasswordVisibility}
+            >
+              {showPassword ? <EyeIconOpen /> : <EyeIconClosed />}
+            </span>
+            <p className="text-red-900 text-sm italic">{message}</p>
           </div>
           <div>
-            <input 
-              type={loading ? "button" : "submit"} 
-              value={loading ? ('Loading...') : ('Login')} 
-              className="w-full bg-blue-500 text-white text-sm font-medium px-5 py-2.5 rounded hover:bg-blue-600"/>
+            <input
+              type={loading ? "button" : "submit"}
+              value={loading ? "Loading..." : "Login"}
+              className="w-full bg-blue-500 text-white text-sm font-medium px-5 py-2.5 rounded hover:bg-blue-600"
+            />
           </div>
         </form>
       </div>
