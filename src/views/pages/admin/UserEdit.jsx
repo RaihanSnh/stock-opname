@@ -37,28 +37,29 @@ export default function UserEdit() {
     }
 
     const code = generateCode(no);
-    
-    useEffect(() => {
-
-        axios.get(`http://127.0.0.1:8000/api/admin/user/${id}`)
-            .then(response => {
-                const userData = response.data.user;
-                setEin(userData.ein);
-                setName(response.data.user.name);
-                setEmail(userData.email);
-                setPassword(userData.password);
-                setRole(userData.role);
-                setGender(userData.gender);
-                setDOB(userData.date_of_birth);
-                setImage(userData.image);
-                console.log(response);
-                console.log(name)
-            })
-            .catch(error => {
-                console.error(error);
-            });
-        }, [id]);
         
+    const fetchData = async () => {
+        await axios.get(`http://127.0.0.1:8000/api/admin/user/${id}`)
+        .then(response => {
+            const userData = response.data.user;
+            setEin(userData.ein);
+            setName(response.data.user.name);
+            setEmail(userData.email);
+            setPassword(userData.password);
+            setRole(userData.role);
+            setGender(userData.gender);
+            setDOB(userData.date_of_birth);
+            setImage(userData.image);
+            console.log(response);
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, [id])
         
     const handleChangeEin = (e) => {
         setEin(e.target.value);
@@ -102,7 +103,7 @@ export default function UserEdit() {
         formData.append('gender', gender);
         formData.append('image', image);
 
-        await axios.post(`http://127.0.0.1:8000/api/admin/user/edit/${id}`, formData, { 
+        await axios.post(`http://127.0.0.1:8000/api/admin/user/update/${id}`, formData, { 
             headers: {
                 'Content-Type': 'multipart/form-data',
             },

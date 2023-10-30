@@ -8,16 +8,20 @@ export default function WarehouseEdit() {
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
 
+    const fetchData = async () => {
+        await axios.get(`http://127.0.0.1:8000/api/admin/warehouse/${id}`)
+        .then(response => {
+            setName(response.data.warehouse.name);
+            console.log(response);
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    };
+
     useEffect(() => {
-        axios.get(`http://127.0.0.1:8000/api/admin/warehouse/${id}`)
-            .then(response => {
-                setName(response.data.warehouse.name);
-                console.log(response);
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    }, [id]);
+        fetchData();
+    }, [id])
 
     const handleName = (e) => {
         setName(e.target.value);

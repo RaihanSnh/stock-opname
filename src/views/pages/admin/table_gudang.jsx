@@ -7,14 +7,18 @@ export default function TableGudang() {
 
     let num = 1;
 
-    useEffect(() => {
+    const fetchData = async () => {
         axios.get('http://127.0.0.1:8000/api/admin/warehouse', {
         }).then(response => {
             setDataGudang(response.data)
         }).catch(error => {
             console.error(error);
         });
-    }, []);
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, [])
 
     return(
         <>

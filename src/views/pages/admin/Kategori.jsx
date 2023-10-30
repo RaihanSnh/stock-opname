@@ -10,8 +10,6 @@ export default function Kategori() {
         await axios.get('http://127.0.0.1:8000/api/admin/category', {
         }).then(response => {
             setDataCategory(response.data);
-        }).then(res => {
-            console.log(res)
         }).catch(error => {
             console.error(error);
         });
@@ -19,7 +17,7 @@ export default function Kategori() {
 
     useEffect(() => {
         fetchData();
-    })
+    }, [])
 
     return(
         <>

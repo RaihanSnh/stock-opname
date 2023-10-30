@@ -10,7 +10,7 @@ export default function UserCreate() {
     const [image, setImage] = useState(null);
     const [role, setRole] = useState('admin');
     const [gender, setGender] = useState('male');
-    const [dob, setDOB] = useState('00-00-0000');
+    const [dob, setDOB] = useState('0000-00-00');
     const navigate = useNavigate();
     
     const [no, setNo] = useState(() => {

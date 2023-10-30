@@ -8,16 +8,20 @@ export default function UnitEdit() {
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
 
+    const fetchData = async () => {
+        await axios.get(`http://127.0.0.1:8000/api/admin/unit/${id}`)
+        .then(response => {
+            setName(response.data.unit.name);
+            console.log(response);
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    };
+
     useEffect(() => {
-        axios.get(`http://127.0.0.1:8000/api/admin/unit/${id}`)
-            .then(response => {
-                setName(response.data.unit.name);
-                console.log(response);
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    }, [id]);
+        fetchData();
+    }, [id])
 
     const handleName = (e) => {
         setName(e.target.value);
@@ -25,7 +29,6 @@ export default function UnitEdit() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         await axios.post(`http://127.0.0.1:8000/api/admin/unit/update/${id}`, {
             name
         })

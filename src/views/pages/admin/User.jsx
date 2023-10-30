@@ -19,7 +19,7 @@ export default function User() {
 
     useEffect(() => {
         fetchData();
-    })
+    }, [dataUser])
 
     return(     
         <>

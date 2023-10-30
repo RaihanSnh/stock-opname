@@ -17,7 +17,7 @@ export default function Unit() {
 
     useEffect(() => {
         fetchData();
-    })
+    }, [])
 
     return(
         <>

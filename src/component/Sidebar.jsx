@@ -1,32 +1,20 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import { Link, NavLink } from "react-router-dom"
 import logo from "../assets/images/logo-main.svg"
 import {HomeIcon, LaporanIcon, UserIcon, CategoryIcon, UnitIcon} from "../assets/images/icon/icon"
 import axios from "axios";
 import Cookies from "universal-cookie";
+import { AuthContext } from "../App";
 
 export default function Sidebar() {
-    const token = new Cookies().get("Authorization");
-    const [role, setRole] = useState('');
     const activeLink = localStorage.getItem('activeLink');
-
-    // axios.get("http://127.0.0.1:8000/api/auth/getuser", {
-    //     withCredentials: true,
-    //     headers: {
-    //         Authorization: `Bearer ${token}`,
-    //     },
-    // }).then(response => {
-    //     setRole(response.data.user.role);
-    //     console.log(role);
-    // }).catch(error => {
-    //     console.error(error);
-    // });
+    const { userData } = useContext(AuthContext);
 
     const navigation = [
         { 
             icon:<HomeIcon/>, 
             name: 'Dashboard', 
-            href: `admin/${activeLink}`},
+            href: `${userData.role}/${activeLink}`},
         { 
             icon:<CategoryIcon/>, 
             name: 'Kategori', 
