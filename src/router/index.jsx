@@ -38,6 +38,11 @@ import UserEdit from "../views/pages/admin/UserEdit";
 
 export default function Router({ role, dataLoaded }) {
     const { auth } = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    if(!auth) {
+        navigate('/');
+    }
 
     return (
         <>
