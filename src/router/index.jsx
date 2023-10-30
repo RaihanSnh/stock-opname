@@ -71,10 +71,12 @@ export default function Router({ role, dataLoaded }) {
                             </Route>
                         </>
                     )}
-                    {auth && dataLoaded && role === "staff" && (
+                    {auth && dataLoaded && role === "warehouse_staff" && (
                         <Route path="/dashboard" element={<Staff />}>
-                            <Route index element={<Produk />} />
-                            <Route path="staff" element={<Produk />} />
+                            <Route path="staff" element={<Produk />}>
+                                <Route path="barang" element={<TableBarang/>}/>
+                                <Route path="gudang" element={<TableGudang/>}/>
+                            </Route>
                         </Route>
                     )}
                     {auth && dataLoaded && role === "requester" && (
