@@ -1,8 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../App';
+import { EyeIconClosed, EyeIconOpen } from '../../assets/images/icon/icon';
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -10,8 +11,12 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
-  const coockies = new Cookies();
+  const cookies = new Cookies();
   const {setAuth} = useContext(AuthContext);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
 
   const handleEmail = (e) => {
     setEmail(e.target.value);
@@ -36,11 +41,21 @@ export default function Login() {
     }
   }
 
+  useEffect ( () => {
+    const token = cookies.get ('Authorization');
+    if (token) {
+      cookies.remove ('Authorization');
+      localStorage.removeItem('auth');
+      localStorage.removeItem('activeLink');
+      console.log ('token terhapus');
+      window.location.reload();
+    }
+  }, []);
+
   const handleLogin = async (e) => {
     e.preventDefault();
 
     setLoading(true);
-
 
     axios.get('http://127.0.0.1:8000/sanctum/csrf-cookie');
 
@@ -51,7 +66,7 @@ export default function Login() {
       withCredentials: true
     })
     .then((response) => {
-      coockies.set('Authorization', response.data.token);
+      cookies.set('Authorization', response.data.token);
       localStorage.setItem('auth', JSON.stringify(response.data.token));
       localStorage.setItem('activeLink', 'barang')
       axios.get('http://127.0.0.1:8000/api/auth/getuser', {

@@ -1,19 +1,20 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 
-export default function UserCreate() {  
+export default function UserEdit() {  
     const [ein, setEin] = useState('');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [image, setImage] = useState(null);
-    const [role, setRole] = useState('admin');
-    const [gender, setGender] = useState('male');
-    const [dob, setDOB] = useState('00-00-0000');
+    const [role, setRole] = useState('');
+    const [gender, setGender] = useState('');
+    const [dob, setDOB] = useState('');
     const navigate = useNavigate();
-    
-    const [no, setNo] = useState(() => {
+    let { id } = useParams();
+
+    const [no] = useState(() => {
         const storedNo = localStorage.getItem('storedNo');
         return storedNo ? parseInt(storedNo, 10) : 1;
     });
@@ -36,7 +37,29 @@ export default function UserCreate() {
     }
 
     const code = generateCode(no);
+    
+    useEffect(() => {
 
+        axios.get(`http://127.0.0.1:8000/api/admin/user/${id}`)
+            .then(response => {
+                const userData = response.data.user;
+                setEin(userData.ein);
+                setName(response.data.user.name);
+                setEmail(userData.email);
+                setPassword(userData.password);
+                setRole(userData.role);
+                setGender(userData.gender);
+                setDOB(userData.date_of_birth);
+                setImage(userData.image);
+                console.log(response);
+                console.log(name)
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        }, [id]);
+        
+        
     const handleChangeEin = (e) => {
         setEin(e.target.value);
     };
@@ -50,7 +73,9 @@ export default function UserCreate() {
         setPassword(e.target.value);
     };
     const handleChangeRole = (e) => {
-        setRole(e.target.value);
+        const newRole = e.target.value;
+        setRole(newRole);
+        setEin(generateCode());
     };
     const handleChangeImage = (e) => {
         setImage(e.target.files[0]);
@@ -66,7 +91,7 @@ export default function UserCreate() {
         e.preventDefault();
 
         const code = generateCode(no).replace(/-/g, '');
-      
+
         const formData = new FormData();
         formData.append('ein', code);
         formData.append('name', name);
@@ -77,20 +102,28 @@ export default function UserCreate() {
         formData.append('gender', gender);
         formData.append('image', image);
 
-        await axios.post('http://127.0.0.1:8000/api/admin/user', formData, { 
+        await axios.post(`http://127.0.0.1:8000/api/admin/user/edit/${id}`, formData, { 
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
         }).then(response => {
             console.log(response);
-            const newNo = no + 1;
-            localStorage.setItem('storedNo', newNo);
-            setNo(newNo);
             navigate(-1);
         }).catch(error => {
             console.error(error);
         });
     }
+
+    const handleDelete = async () => {
+        await axios.delete(`http://127.0.0.1:8000/api/admin/user/delete/${id}`)
+        .then(response => {
+            console.log(response);
+            navigate(-1);
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    };
 
     return(
         <>
@@ -106,7 +139,7 @@ export default function UserCreate() {
                 </div>
             </div>
             <div className="">
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form className="space-y-4">
                     <div className="flex space-x-4">
                         <div className="space-y-4 flex-1 flex-col">
                             <div className="group flex items-center">
@@ -216,7 +249,10 @@ export default function UserCreate() {
                             </div>
                         </div>
                     </div>
-                    <button type="submit" className="w-full p-2 px-5 bg-sky-500 rounded-md text-white font-medium hover:bg-sky-600 transition duration-300 ease-in-out">Kirim</button>
+                    <div className="flex gap-4">
+                        <button type="button" onClick={handleSubmit} className="w-full p-2 px-5 bg-sky-500 rounded-md text-white font-medium hover:bg-sky-600 transition duration-300 ease-in-out">Simpan</button>
+                        <button type="button" onClick={handleDelete} className="w-full p-2 px-5 bg-red-500 rounded-md text-white font-medium hover:bg-red-600 transition duration-300 ease-in-out">Delete</button>
+                    </div>
                 </form>
             </div>
         </>

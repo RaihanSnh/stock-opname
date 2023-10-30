@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, useParams } from "react-router-dom";
 import NotFound from "../views/error/Notfound";
 import { LoadingComponent } from "../component/Loading";
 
@@ -34,6 +34,7 @@ import TableBarang from "../views/pages/admin/table_barang";
 import TableGudang from "../views/pages/admin/table_gudang";
 import WarehouseCreate from "../views/pages/admin/WarehouseCreat";
 import WarehouseEdit from "../views/pages/admin/WarehouseEdit";
+import UserEdit from "../views/pages/admin/UserEdit";
 
 export default function Router({ role, dataLoaded }) {
     const { auth } = useContext(AuthContext);
@@ -57,7 +58,7 @@ export default function Router({ role, dataLoaded }) {
                                 <Route path='admin/gudang/edit/:id' element={<WarehouseEdit />} />
                                 <Route path='user/:role' element={<User />} />
                                 <Route path='user/create' element={<UserCreate />} />
-                                <Route path='user/:role/edit/:id' element={<UserCreate />} />
+                                <Route path='user/:role/edit/:id' element={<UserEdit />} />
                                 <Route path='kategori' element={<Kategori />} />
                                 <Route path='kategori/create' element={<CreateKategori />} />
                                 <Route path='kategori/edit/:id' element={<KategoriEdit />} />
