@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom"
+import { fetchDataService } from "../../../utils/fetchData";
+import { getUrl } from "../../../utils/config";
 
 export default function UnitEdit() {
     const { id } = useParams();
@@ -8,19 +10,15 @@ export default function UnitEdit() {
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
 
-    const fetchData = async () => {
-        await axios.get(`http://127.0.0.1:8000/api/admin/unit/${id}`)
+    useEffect(() => {
+        const unit = new fetchDataService(getUrl(`/api/admin/unit/${id}`));
+        unit.fetchData()
         .then(response => {
             setName(response.data.unit.name);
-            console.log(response);
         })
         .catch(error => {
             console.error(error);
         });
-    };
-
-    useEffect(() => {
-        fetchData();
     }, [id])
 
     const handleName = (e) => {

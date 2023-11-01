@@ -1,24 +1,25 @@
 import axios from "axios";
 import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
+import { fetchDataService } from "../../../utils/fetchData";
+import { getUrl } from "../../../utils/config";
 
 export default function TableGudang() {
-    const [dataGudang, setDataGudang] = useState([]);
+    const [dataWarehouse, setDataWarehouse] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [search, setSearch] = useState("");
     let num = 1;
 
-    const fetchData = async () => {
-        await axios.get('http://127.0.0.1:8000/api/admin/warehouse', {}).then(response => {
-            setDataGudang(response.data)
+    useEffect(() => {
+        const warehouse = new fetchDataService(getUrl('/api/admin/warehouse'));
+        warehouse.fetchData()
+        .then(response => {
+            setDataWarehouse(response.data);
             setIsLoading(false);
-        }).catch(error => {
+        })
+        .catch(error => {
             console.error(error);
         });
-    };
-
-    useEffect(() => {
-        fetchData();
     }, [])
 
     return (
@@ -54,61 +55,17 @@ export default function TableGudang() {
                 </div>
                 {isLoading ? (
                     <>
-                        <div className="grid grid-cols-2 p-2 text-xs font-medium text-gray-900 mb-1 animate-pulse">
-                            <div className="bg-gray-400 h-4 w-10"></div>
-                            <div className="bg-gray-400 h-4 w-40"></div>
-                        </div>
-                        <div className="grid grid-cols-2 p-2 text-xs font-medium text-gray-900 mb-1 animate-pulse">
-                            <div className="bg-gray-400 h-4 w-10"></div>
-                            <div className="bg-gray-400 h-4 w-40"></div>
-                        </div>
-                        <div className="grid grid-cols-2 p-2 text-xs font-medium text-gray-900 mb-1 animate-pulse">
-                            <div className="bg-gray-400 h-4 w-10"></div>
-                            <div className="bg-gray-400 h-4 w-40"></div>
-                        </div>
-                        <div className="grid grid-cols-2 p-2 text-xs font-medium text-gray-900 mb-1 animate-pulse">
-                            <div className="bg-gray-400 h-4 w-10"></div>
-                            <div className="bg-gray-400 h-4 w-40"></div>
-                        </div>
-                        <div className="grid grid-cols-2 p-2 text-xs font-medium text-gray-900 mb-1 animate-pulse">
-                            <div className="bg-gray-400 h-4 w-10"></div>
-                            <div className="bg-gray-400 h-4 w-40"></div>
-                        </div>
-                        <div className="grid grid-cols-2 p-2 text-xs font-medium text-gray-900 mb-1 animate-pulse">
-                            <div className="bg-gray-400 h-4 w-10"></div>
-                            <div className="bg-gray-400 h-4 w-40"></div>
-                        </div>
-                        <div className="grid grid-cols-2 p-2 text-xs font-medium text-gray-900 mb-1 animate-pulse">
-                            <div className="bg-gray-400 h-4 w-10"></div>
-                            <div className="bg-gray-400 h-4 w-40"></div>
-                        </div>
-                        <div className="grid grid-cols-2 p-2 text-xs font-medium text-gray-900 mb-1 animate-pulse">
-                            <div className="bg-gray-400 h-4 w-10"></div>
-                            <div className="bg-gray-400 h-4 w-40"></div>
-                        </div>
-                        <div className="grid grid-cols-2 p-2 text-xs font-medium text-gray-900 mb-1 animate-pulse">
-                            <div className="bg-gray-400 h-4 w-10"></div>
-                            <div className="bg-gray-400 h-4 w-40"></div>
-                        </div>
-                        <div className="grid grid-cols-2 p-2 text-xs font-medium text-gray-900 mb-1 animate-pulse">
-                            <div className="bg-gray-400 h-4 w-10"></div>
-                            <div className="bg-gray-400 h-4 w-40"></div>
-                        </div>
-                        <div className="grid grid-cols-2 p-2 text-xs font-medium text-gray-900 mb-1 animate-pulse">
-                            <div className="bg-gray-400 h-4 w-10"></div>
-                            <div className="bg-gray-400 h-4 w-40"></div>
-                        </div>
-                        <div className="grid grid-cols-2 p-2 text-xs font-medium text-gray-900 mb-1 animate-pulse">
-                            <div className="bg-gray-400 h-4 w-10"></div>
-                            <div className="bg-gray-400 h-4 w-40"></div>
-                        </div>
-                        <div className="grid grid-cols-2 p-2 text-xs font-medium text-gray-900 mb-1 animate-pulse">
-                            <div className="bg-gray-400 h-4 w-10"></div>
-                            <div className="bg-gray-400 h-4 w-40"></div>
+                        <div className="space-y-2 animate-pulse">
+                            <div className="flex bg-gray-200 p-3.5 rounded"></div>
+                            <div className="flex bg-gray-200 p-3.5 rounded"></div>
+                            <div className="flex bg-gray-200 p-3.5 rounded"></div>
+                            <div className="flex bg-gray-200 p-3.5 rounded"></div>
+                            <div className="flex bg-gray-200 p-3.5 rounded"></div>
+                            <div className="flex bg-gray-200 p-3.5 rounded"></div>
                         </div>
                     </>
                 ) : (
-                    dataGudang.filter((row) => {
+                    dataWarehouse.filter((row) => {
                         if (search === "") {
                             return row
                         } else if (row.name.toLowerCase().includes(search.toLowerCase())) {

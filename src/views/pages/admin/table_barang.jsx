@@ -1,14 +1,25 @@
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { fetchDataService } from "../../../utils/fetchData";
+import { getUrl } from "../../../utils/config";
+
 export default function TableBarang() {
-    const table = [
-        { no: '1', kode: 'ABC-2', barang: 'Mouse', jumlah: '10pcs', seri: 'Logitech', Tanggal: '00-00-0000' },
-        { no: '1', kode: 'ABC-2', barang: 'Mouse', jumlah: '10pcs', seri: 'Logitech', Tanggal: '00-00-0000' },
-        { no: '1', kode: 'ABC-2', barang: 'Mouse', jumlah: '10pcs', seri: 'Logitech', Tanggal: '00-00-0000' },
-        { no: '1', kode: 'ABC-2', barang: 'Mouse', jumlah: '10pcs', seri: 'Logitech', Tanggal: '00-00-0000' },
-        { no: '1', kode: 'ABC-2', barang: 'Mouse', jumlah: '10pcs', seri: 'Logitech', Tanggal: '00-00-0000' },
-        { no: '1', kode: 'ABC-2', barang: 'Mouse', jumlah: '10pcs', seri: 'Logitech', Tanggal: '00-00-0000' },
-        { no: '1', kode: 'ABC-2', barang: 'Mouse', jumlah: '10pcs', seri: 'Logitech', Tanggal: '00-00-0000' },
-        { no: '1', kode: 'ABC-2', barang: 'Mouse', jumlah: '10pcs', seri: 'Logitech', Tanggal: '00-00-0000' },
-    ]
+    const [dataItem, setDataItem] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [search, setSearch] = useState("");
+    let num = 1;
+
+    useEffect(() => {
+        const item = new fetchDataService(getUrl('/api/admin/item'));
+        item.fetchData()
+        .then(response => {
+            setDataItem(response.data);
+            setIsLoading(false);
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    }, [])
     
     return(
         <>
@@ -28,22 +39,44 @@ export default function TableBarang() {
                     </div>
                 </div>
             </div>  
-            <div className="w-full mt-4 overflow-auto scrollbar-gray">
-                <div className="grid grid-cols-6 p-2 text-xs font-bold text-gray-900 bg-gray-100 rounded mb-1 sticky top-0">
+            <div className="w-full mt-4 overflow-auto scrollbar-gray space-y-2">
+                <div className="grid grid-cols-5 p-2 text-xs font-bold text-gray-900 bg-gray-100 rounded sticky top-0">
                     <span>No</span>
                     <span>Kode</span>
                     <span>Barang</span>
                     <span>Jumlah</span>
                     <span>Seri</span>
-                    <span>Tanggal</span>
                 </div>
-                {table.map((row) => (
-                    <div key={row.no} className="grid grid-cols-6 p-2 text-xs font-medium text-gray-900 mb-1">
-                        {Object.keys(row).map((key) => (
-                            <span key={key}>{row[key]}</span>
-                        ))}
-                    </div>
-                ))}
+                {isLoading ? (
+                    <>
+                        <div className="space-y-2 animate-pulse">
+                            <div className="flex bg-gray-200 p-3.5 rounded"></div>
+                            <div className="flex bg-gray-200 p-3.5 rounded"></div>
+                            <div className="flex bg-gray-200 p-3.5 rounded"></div>
+                            <div className="flex bg-gray-200 p-3.5 rounded"></div>
+                            <div className="flex bg-gray-200 p-3.5 rounded"></div>
+                            <div className="flex bg-gray-200 p-3.5 rounded"></div>
+                        </div>
+                    </>
+                ) : (
+                    dataItem.filter((row) => {
+                        if (search === "") {
+                            return row
+                        } else if (row.name.toLowerCase().includes(search.toLowerCase())) {
+                            return row
+                        }
+                    }).map((row) => (
+                        <div key={row.id} className="grid grid-cols-5 p-2 text-xs font-medium text-gray-900 space-y-1">
+                            <span>{num++}</span>
+                            <span>{row.code}</span>
+                            <Link to={`edit/${row.id}`}>
+                                <span>{row.name}</span>
+                            </Link>
+                            <span>{row.total}</span>
+                            <span>{row.series}</span>
+                        </div>
+                    ))
+                )}
             </div>
         </>
     )

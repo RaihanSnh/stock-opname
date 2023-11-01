@@ -1,8 +1,11 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom"
+import { fetchDataService } from "../../../utils/fetchData";
+import { getUrl } from "../../../utils/config";
 
 export default function UserEdit() {  
+    let { id } = useParams();
     const [ein, setEin] = useState('');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -12,7 +15,6 @@ export default function UserEdit() {
     const [gender, setGender] = useState('');
     const [dob, setDOB] = useState('');
     const navigate = useNavigate();
-    let { id } = useParams();
 
     const [no] = useState(() => {
         const storedNo = localStorage.getItem('storedNo');
@@ -37,28 +39,24 @@ export default function UserEdit() {
     }
 
     const code = generateCode(no);
-        
-    const fetchData = async () => {
-        await axios.get(`http://127.0.0.1:8000/api/admin/user/${id}`)
+
+    useEffect(() => {
+        const user = new fetchDataService(getUrl(`/api/admin/user/${id}`));
+        user.fetchData()
         .then(response => {
-            const userData = response.data.user;
-            setEin(userData.ein);
+            setEin(response.data.user.ein);
             setName(response.data.user.name);
-            setEmail(userData.email);
-            setPassword(userData.password);
-            setRole(userData.role);
-            setGender(userData.gender);
-            setDOB(userData.date_of_birth);
-            setImage(userData.image);
+            setEmail(response.data.user.email);
+            setPassword(response.data.user.password);
+            setRole(response.data.user.role);
+            setGender(response.data.user.gender);
+            setDOB(response.data.user.date_of_birth);
+            setImage(response.data.user.image);
             console.log(response);
         })
         .catch(error => {
             console.error(error);
         });
-    };
-
-    useEffect(() => {
-        fetchData();
     }, [id])
         
     const handleChangeEin = (e) => {

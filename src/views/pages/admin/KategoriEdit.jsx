@@ -1,59 +1,57 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom"
+import { fetchDataService } from "../../../utils/fetchData";
+import { getUrl } from "../../../utils/config";
 
 export default function KategoriEdit() {
     const { id } = useParams();
     const [name, setName] = useState('');
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
+    
+    useEffect(() => {
+        const category = new fetchDataService(getUrl(`/api/admin/category/${id}`));
+        category.fetchData()
+        .then(response => {
+            setName(response.data.category.name);
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    }, [id])
 
-        const fetchData = async () => {
-            await axios.get(`http://127.0.0.1:8000/api/admin/category/${id}`)
+    const handleName = (e) => {
+        setName(e.target.value);
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        await axios.post(`http://127.0.0.1:8000/api/admin/category/update/${id}`, {
+            name
+        })
             .then(response => {
-                setName(response.data.category.name);
                 console.log(response);
+                navigate(-1);
             })
             .catch(error => {
                 console.error(error);
+                setMessage(error.response.data.message);
             });
-        };
-    
-        useEffect(() => {
-            fetchData();
-        }, [id])
+    };
 
-        const handleName = (e) => {
-            setName(e.target.value);
-        };
-    
-        const handleSubmit = async (e) => {
-            e.preventDefault();
-
-            await axios.post(`http://127.0.0.1:8000/api/admin/category/update/${id}`, {
-                name
+    const handleDelete = async () => {
+            await axios.delete(`http://127.0.0.1:8000/api/admin/category/delete/${id}`)
+            .then(response => {
+                console.log(response);
+                navigate(-1);
             })
-                .then(response => {
-                    console.log(response);
-                    navigate(-1);
-                })
-                .catch(error => {
-                    console.error(error);
-                    setMessage(error.response.data.message);
-                });
-        };
-
-        const handleDelete = async () => {
-                await axios.delete(`http://127.0.0.1:8000/api/admin/category/delete/${id}`)
-                .then(response => {
-                    console.log(response);
-                    navigate(-1);
-                })
-                .catch(error => {
-                    console.error(error);
-                    setMessage(error.response.data.message);
-                });
-        };     
+            .catch(error => {
+                console.error(error);
+                setMessage(error.response.data.message);
+            });
+    };     
 
     return(
         <>

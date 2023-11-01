@@ -1,20 +1,21 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import { fetchDataService } from "../../../utils/fetchData";
 import { getUrl } from "../../../utils/config";
 
-export default function ItemCreate() {
-    const [setCode] = useState('');
+export default function ItemEdit() {
+    let { id } = useParams();
+    const [a, setCode] = useState('');
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [series, setSeries] = useState('');
     const [total, setTotal] = useState('');
     const [image, setImage] = useState('');
     const [vendor, setVendor] = useState('');
-    const [category, setCategory] = useState(1);
-    const [unit, setUnit] = useState(1);
-    const [warehouse, setWarehouse] = useState(1);
+    const [category, setCategory] = useState('');
+    const [unit, setUnit] = useState();
+    const [warehouse, setWarehouse] = useState();
     const [dataWarehouse, setDataWarehouse] = useState([]);
     const [dataUnit, setDataUnit] = useState([]);
     const [dataCategory, setDataCategory] = useState([]);
@@ -25,20 +26,32 @@ export default function ItemCreate() {
     });
 
     useEffect(() => {
+        const item = new fetchDataService(getUrl(`/api/admin/item/${id}`));
         const warehouse = new fetchDataService(getUrl(`/api/admin/warehouse`));
         const unit = new fetchDataService(getUrl(`/api/admin/unit`));
         const category = new fetchDataService(getUrl(`/api/admin/category`));
-        Promise.all([warehouse.fetchData(), unit.fetchData(), category.fetchData()])
+        Promise.all([item.fetchData(), warehouse.fetchData(), unit.fetchData(), category.fetchData()])
         .then(response => {
-            const [warehouse, unit, category] = response;
+            const [item, warehouse, unit, category] = response;
+            setCode(item.data.item.code);
+            setName(item.data.item.name);
+            setDescription(item.data.item.description);
+            setSeries(item.data.item.series);
+            setTotal(item.data.item.total);
+            setImage(item.data.item.image);
+            setVendor(item.data.item.vendor);
+            setWarehouse(item.data.item.warehouse_id);
+            setUnit(item.data.item.unit_id);
+            setCategory(item.data.item.category_id);
             setDataWarehouse(warehouse.data);
             setDataUnit(unit.data);
             setDataCategory(category.data);
+            console.log(response);
         })
         .catch(error => {
             console.error(error);
         });
-    }, [])
+    }, [id])
 
     function generateCode(no) {
         const paddedNo = String(no).padStart(3, '0');
@@ -224,10 +237,10 @@ export default function ItemCreate() {
                                             onChange={handleWarehouse}
                                             value={warehouse}
                                         >
-                                            {dataWarehouse.map(unit => (
+                                            {dataWarehouse.map(warehouse => (
                                                 <>
-                                                    <option key={unit.id} value={unit.id}>
-                                                        {unit.name}
+                                                    <option key={warehouse.id} value={warehouse.id}>
+                                                        {warehouse.name}
                                                     </option>
                                                 </>
                                             ))}

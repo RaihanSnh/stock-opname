@@ -35,14 +35,10 @@ import TableGudang from "../views/pages/admin/table_gudang";
 import WarehouseCreate from "../views/pages/admin/WarehouseCreat";
 import WarehouseEdit from "../views/pages/admin/WarehouseEdit";
 import UserEdit from "../views/pages/admin/UserEdit";
+import ItemEdit from "../views/pages/admin/ItemEdit";
 
 export default function Router({ role, dataLoaded }) {
     const { auth } = useContext(AuthContext);
-    const navigate = useNavigate();
-
-    if(!auth) {
-        navigate('/');
-    }
 
     return (
         <>
@@ -58,9 +54,10 @@ export default function Router({ role, dataLoaded }) {
                                     <Route path="barang" element={<TableBarang/>}/>
                                     <Route path="gudang" element={<TableGudang/>}/>
                                 </Route>
-                                <Route path='admin/tambahbarang' element={<ItemCreate />} />
-                                <Route path='admin/tambahgudang' element={<WarehouseCreate />} />
-                                <Route path='admin/gudang/edit/:id' element={<WarehouseEdit />} />
+                                <Route path=":role/barang/edit/:id" element={<ItemEdit/>}/>
+                                <Route path=':role/tambahbarang' element={<ItemCreate />} />
+                                <Route path=':role/tambahgudang' element={<WarehouseCreate />} />
+                                <Route path=':role/gudang/edit/:id' element={<WarehouseEdit />} />
                                 <Route path='user/:role' element={<User />} />
                                 <Route path='user/create' element={<UserCreate />} />
                                 <Route path='user/:role/edit/:id' element={<UserEdit />} />

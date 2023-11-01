@@ -119,7 +119,7 @@ export default function UserCreate() {
                             </div>
                             <div className="group flex">
                                 <label htmlFor="Gambar" className="w-64">Gambar</label>
-                                <div className="w-full h-ful">
+                                <div className="w-full h-full">
                                     <label for="dropzone-file" className="w-72 flex flex-col items-center justify-center border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100">
                                         <div className="flex flex-col items-center justify-center pt-5 pb-6">
                                             <svg className="w-6 h-6 text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
@@ -132,12 +132,12 @@ export default function UserCreate() {
                                             className="hidden" 
                                             id="dropzone-file" 
                                             type="file"
-                                            onChange={handleChangeImage} 
+                                            onChange={handleChangeImage}
                                         />
                                     </label>
                                 </div> 
                             </div>
-                            <div className="flex space-x-4">
+                            <div className="flex space-x-4 w-full">
                                 <div className="space-y-4 w-full">
                                     <div className="group space-y-2">
                                         <label htmlFor="nama" className="w-64">Nama</label>

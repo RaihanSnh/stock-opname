@@ -26,13 +26,11 @@ export default function Navbar() {
         });
     }
     return(   
-        <nav className="w-full h-16 bg-white shadow-md sticky top-0 z-10">
-            <div className="p-3 border-b">
-                <div className="p-2 flex justify-end items-center">
-                    <div className="flex items-center gap-4">
-                        <img src={userData.image} alt="" className="rounded-full w-8" />
-                        <button onClick={handleLogout}>Logout</button>
-                    </div>
+        <nav className="w-full bg-white shadow-md sticky top-0 z-10">
+            <div className="flex justify-end items-center h-16  px-5">
+                <div className="flex items-center gap-4">
+                    <img src={userData.image} alt="" className="rounded-full w-8" />
+                    <button onClick={handleLogout}>Logout</button>
                 </div>
             </div>
         </nav>

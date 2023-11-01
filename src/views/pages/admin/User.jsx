@@ -1,25 +1,28 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom"
+import { fetchDataService } from "../../../utils/fetchData";
+import { getUrl } from "../../../utils/config";
 
 export default function User() {
     const [dataUser, setDataUser] = useState([]);
     const { role } = useParams();
+    const [isLoading, setIsLoading] = useState(true);
+    const [search, setSearch] = useState("");
     let num = 1;
 
-    const fetchData = async () => {
-        await axios.get('http://127.0.0.1:8000/api/admin/user', {
-        }).then(response => {
+    useEffect(() => {
+        const user = new fetchDataService(getUrl('/api/admin/user'));
+        user.fetchData()
+        .then(response => {
             const filteredUsers = response.data.filter(user => user.role === role);
             setDataUser(filteredUsers);
-        }).catch(error => {
+            setIsLoading(false);
+        })
+        .catch(error => {
             console.error(error);
         });
-    };
-
-    useEffect(() => {
-        fetchData();
-    }, [dataUser])
+    }, [role])
 
     return(     
         <>
@@ -44,7 +47,7 @@ export default function User() {
                         </div>
                     </div>
                 </div>
-            </div>  
+            </div> 
             <div className="w-full mt-4 overflow-auto scrollbar-gray">
                 <div className="grid grid-cols-5 p-2 text-xs font-bold text-gray-900 bg-gray-100 rounded mb-1 sticky top-0">
                     <span>No</span>
@@ -53,17 +56,36 @@ export default function User() {
                     <span>Role</span>
                     <span>Email</span>
                 </div>
-                {dataUser.map((row) => (
-                    <div key={row.id} className="grid grid-cols-5 p-2 text-xs font-medium text-gray-900 mb-1">
-                        <span>{num++}</span>
-                        <span>{row.ein}</span>
-                        <Link to={`edit/${row.id}`}>
-                            <span>{row.name}</span>
-                        </Link>
-                        <span>{row.role}</span>
-                        <span>{row.email}</span>
-                    </div>
-                ))}
+                {isLoading ? (
+                    <>
+                        <div className="space-y-2 animate-pulse">
+                            <div className="flex bg-gray-200 p-3.5 rounded"></div>
+                            <div className="flex bg-gray-200 p-3.5 rounded"></div>
+                            <div className="flex bg-gray-200 p-3.5 rounded"></div>
+                            <div className="flex bg-gray-200 p-3.5 rounded"></div>
+                            <div className="flex bg-gray-200 p-3.5 rounded"></div>
+                            <div className="flex bg-gray-200 p-3.5 rounded"></div>
+                        </div>
+                    </>
+                ) : (
+                    dataUser.filter((row) => {
+                        if (search === "") {
+                            return row
+                        } else if (row.name.toLowerCase().includes(search.toLowerCase())) {
+                            return row
+                        }
+                    }).map((row) => (
+                        <div key={row.id} className="grid grid-cols-5 p-2 text-xs font-medium text-gray-900 mb-1">
+                            <span>{num++}</span>
+                            <span>{row.ein}</span>
+                            <Link to={`edit/${row.id}`}>
+                                <span>{row.name}</span>
+                            </Link>
+                            <span>{row.role}</span>
+                            <span>{row.email}</span>
+                        </div>
+                    ))
+                )}
             </div>
         </>
     )

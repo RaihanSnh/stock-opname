@@ -27,19 +27,6 @@ export default function Login() {
   };
 
   const navigate = useNavigate()
-  const handleRedirect = (role) => {
-    switch (role) {
-      case 'admin':
-        navigate('/dashboard/admin/barang');
-        break;
-      case 'warehouse_staff':
-        navigate('/dashboard/staff/barang');
-        break;
-      case 'requester':
-        navigate('/dashboard/requester');
-        break;
-    }
-  }
 
   useEffect ( () => {
     const token = cookies.get ('Authorization');
@@ -87,6 +74,20 @@ export default function Login() {
       setLoading(false);
     })
   };
+
+  const handleRedirect = (role) => {
+    switch (role) {
+      case 'admin':
+        navigate('/dashboard/admin/barang');
+        break;
+      case 'warehouse_staff':
+        navigate('/dashboard/staff/barang');
+        break;
+      case 'requester':
+        navigate('/dashboard/requester');
+        break;
+    }
+  }
   
   return (
     <div className="bg-gray-50 flex items-center justify-center h-screen">
