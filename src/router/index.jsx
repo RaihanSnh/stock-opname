@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Routes, Route, useNavigate, useParams } from "react-router-dom";
+import React, { useContext } from "react";
+import { Routes, Route } from "react-router-dom";
 import NotFound from "../views/error/Notfound";
 import { LoadingComponent } from "../component/Loading";
 
@@ -36,6 +36,10 @@ import WarehouseCreate from "../views/pages/admin/WarehouseCreat";
 import WarehouseEdit from "../views/pages/admin/WarehouseEdit";
 import UserEdit from "../views/pages/admin/UserEdit";
 import ItemEdit from "../views/pages/admin/ItemEdit";
+import Form from "../views/pages/requester/Form";
+import Pending from "../views/pages/requester/Pending";
+import Order from "../views/pages/requester/Order";
+import FilterItem from "../views/pages/admin/FilterItem";
 
 export default function Router({ role, dataLoaded }) {
     const { auth } = useContext(AuthContext);
@@ -54,10 +58,10 @@ export default function Router({ role, dataLoaded }) {
                                     <Route path="barang" element={<TableBarang/>}/>
                                     <Route path="gudang" element={<TableGudang/>}/>
                                 </Route>
-                                <Route path=":role/barang/edit/:id" element={<ItemEdit/>}/>
-                                <Route path=':role/tambahbarang' element={<ItemCreate />} />
-                                <Route path=':role/tambahgudang' element={<WarehouseCreate />} />
-                                <Route path=':role/gudang/edit/:id' element={<WarehouseEdit />} />
+                                <Route path="admin/barang/edit/:id" element={<ItemEdit/>}/>
+                                <Route path='admin/tambahbarang' element={<ItemCreate />} />
+                                <Route path='admin/tambahgudang' element={<WarehouseCreate />} />
+                                <Route path='admin/gudang/edit/:id' element={<WarehouseEdit />} />
                                 <Route path='user/:role' element={<User />} />
                                 <Route path='user/create' element={<UserCreate />} />
                                 <Route path='user/:role/edit/:id' element={<UserEdit />} />
@@ -70,20 +74,28 @@ export default function Router({ role, dataLoaded }) {
                                 <Route path='laporanmasuk' element={<LaporanMasuk />} />
                                 <Route path='laporankeluar' element={<LaporanKeluar />} />
                                 <Route path='request' element={<ListRequest />} />
+                                <Route path='detail/:itemId' element={<FilterItem />} />
                             </Route>
                         </>
                     )}
                     {auth && dataLoaded && role === "warehouse_staff" && (
                         <Route path="/dashboard" element={<Staff />}>
-                            <Route path="staff" element={<Produk />}>
+                            <Route path="warehouse_staff" element={<Produk />}>
                                 <Route path="barang" element={<TableBarang/>}/>
                                 <Route path="gudang" element={<TableGudang/>}/>
                             </Route>
+                            <Route path="warehouse_staff/barang/edit/:id" element={<ItemEdit/>}/>
+                            <Route path='warehouse_staff/tambahbarang' element={<ItemCreate />} />
+                            <Route path='warehouse_staff/tambahgudang' element={<WarehouseCreate />} />
+                            <Route path='warehouse_staff/gudang/edit/:id' element={<WarehouseEdit />} />
                         </Route>
                     )}
                     {auth && dataLoaded && role === "requester" && (
                         <Route path="/dashboard" element={<Requester />}>
-                            <Route path="requester" element={<Request />} />
+                            <Route path="requester" element={<Request />}>
+                                <Route path="form" element={<Form />} />
+                            </Route>
+                            <Route path="request" element={<Order />}/>
                         </Route>
                     )}
                     {auth && dataLoaded && (

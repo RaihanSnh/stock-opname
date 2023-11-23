@@ -7,19 +7,26 @@ export default function TableBarang() {
     const [dataItem, setDataItem] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [search, setSearch] = useState("");
+    const [itemId, setItemId] = useState('');
     let num = 1;
 
     useEffect(() => {
-        const item = new fetchDataService(getUrl('/api/admin/item'));
-        item.fetchData()
-        .then(response => {
-            setDataItem(response.data);
-            setIsLoading(false);
-        })
-        .catch(error => {
-            console.error(error);
-        });
-    }, [])
+        const fetchData = async () => {
+            try {
+                const itemService = new fetchDataService(getUrl(`/api/admin/item`));
+                const itemResponse = await itemService.fetchData();
+                setItemId(itemResponse.data.item_id);
+                
+                const detailService = new fetchDataService(getUrl(`/api/admin/item/${itemId}`));
+                const detailResponse = await detailService.fetchData();
+                setDataItem(detailResponse.data);
+                setIsLoading(false);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchData();
+    }, []);
     
     return(
         <>
@@ -40,12 +47,10 @@ export default function TableBarang() {
                 </div>
             </div>  
             <div className="w-full mt-4 overflow-auto scrollbar-gray space-y-2">
-                <div className="grid grid-cols-5 p-2 text-xs font-bold text-gray-900 bg-gray-100 rounded sticky top-0">
+                <div className="grid grid-cols-3 p-2 text-xs font-bold text-gray-900 bg-gray-100 rounded sticky top-0">
                     <span>No</span>
-                    <span>Kode</span>
                     <span>Barang</span>
                     <span>Jumlah</span>
-                    <span>Seri</span>
                 </div>
                 {isLoading ? (
                     <>
@@ -66,14 +71,27 @@ export default function TableBarang() {
                             return row
                         }
                     }).map((row) => (
-                        <div key={row.id} className="grid grid-cols-5 p-2 text-xs font-medium text-gray-900 space-y-1">
+                        <div key={row.id} className="grid grid-cols-3 p-2 text-xs font-medium text-gray-900 space-y-1 items-center">
                             <span>{num++}</span>
-                            <span>{row.code}</span>
-                            <Link to={`edit/${row.id}`}>
-                                <span>{row.name}</span>
+                            <Link to={`/dashboard/detail/${row.item_id}`}>
+                                <span>{row.items.name}</span>
                             </Link>
                             <span>{row.total}</span>
-                            <span>{row.series}</span>
+                            {/* <span>{row.series}</span>
+                            <span>{row.warehouse.name}</span>
+                            {row.total <= 10 && row.total > 1 ? 
+                                <div>
+                                    <span className="bg-blue-100 text-blue-800 text-xs font-medium p-1 px-2 rounded-full">Stock hampir habis</span>
+                                </div>
+                            : row.total == 0 ? 
+                                <div>
+                                    <span className="bg-red-100 text-red-800 text-xs font-medium p-1 px-2 rounded-full">Stock habis</span>
+                                </div>
+                            : 
+                                <div>
+                                    <span className="bg-green-100 text-green-800 text-xs font-medium p-1 px-2 rounded-full">Stock tersedia</span>
+                                </div>
+                            } */}
                         </div>
                     ))
                 )}

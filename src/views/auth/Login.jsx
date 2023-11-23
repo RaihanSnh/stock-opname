@@ -6,88 +6,77 @@ import { AuthContext } from '../../App';
 import { EyeIconClosed, EyeIconOpen } from '../../assets/images/icon/icon';
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState('');
-  const cookies = new Cookies();
-  const {setAuth} = useContext(AuthContext);
+const [email, setEmail] = useState("");
+const [password, setPassword] = useState("");
+const [showPassword, setShowPassword] = useState(false);
+const [loading, setLoading] = useState(false);
+const [message, setMessage] = useState('');
+const cookies = new Cookies();
+const {setAuth} = useContext(AuthContext);
 
-  const togglePasswordVisibility = () => {
-    setShowPassword((prevShowPassword) => !prevShowPassword);
-  };
+const togglePasswordVisibility = () => {
+  setShowPassword((prevShowPassword) => !prevShowPassword);
+};
 
-  const handleEmail = (e) => {
-    setEmail(e.target.value);
-  };
+const handleEmail = (e) => {
+  setEmail(e.target.value);
+};
 
-  const handlePassword = (e) => {
-    setPassword(e.target.value);
-  };
+const handlePassword = (e) => {
+  setPassword(e.target.value);
+};
 
-  const navigate = useNavigate()
+const navigate = useNavigate()
 
-  useEffect ( () => {
-    const token = cookies.get ('Authorization');
-    if (token) {
-      cookies.remove ('Authorization');
-      localStorage.removeItem('auth');
-      localStorage.removeItem('activeLink');
-      console.log ('token terhapus');
-      window.location.reload();
-    }
-  }, []);
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-
-    setLoading(true);
-
-    axios.get('http://127.0.0.1:8000/sanctum/csrf-cookie');
-
-    axios.post('http://127.0.0.1:8000/api/auth/login', { 
-      email, 
-      password 
-    }, {
-      withCredentials: true
-    })
-    .then((response) => {
-      cookies.set('Authorization', response.data.token);
-      localStorage.setItem('auth', JSON.stringify(response.data.token));
-      localStorage.setItem('activeLink', 'barang')
-      axios.get('http://127.0.0.1:8000/api/auth/getuser', {
-        headers : {
-          Authorization: `Bearer ${response.data.token}`
-        }
-        })
-        .then(response => {
-          setAuth(response.data.user);
-          console.log(response)
-          const role = response.data.user.role;
-          handleRedirect(role);
-        });
-    })
-    .catch((error) => {
-      console.error(error);
-      setMessage(error.response.data.message);
-      setLoading(false);
-    })
-  };
-
-  const handleRedirect = (role) => {
-    switch (role) {
-      case 'admin':
-        navigate('/dashboard/admin/barang');
-        break;
-      case 'warehouse_staff':
-        navigate('/dashboard/staff/barang');
-        break;
-      case 'requester':
-        navigate('/dashboard/requester');
-        break;
-    }
+useEffect ( () => {
+  const token = cookies.get ('Authorization');
+  if (token) {
+    cookies.remove ('Authorization');
+    localStorage.removeItem('auth');
+    localStorage.removeItem('activeLink');
+    window.location.reload();
   }
+}, []);
+
+const handleLogin = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+  axios.get('http://127.0.0.1:8000/sanctum/csrf-cookie');
+  axios.post('http://127.0.0.1:8000/api/auth/login', { 
+    email, 
+    password 
+  }, {
+    withCredentials: true
+  })
+  .then((response) => {
+    cookies.set('Authorization', response.data.token);
+    localStorage.setItem('activeLink', 'barang')
+    axios.get('http://127.0.0.1:8000/api/auth/getuser', {
+      headers : {
+        Authorization: `Bearer ${response.data.token}`
+      }
+    })
+      .then(response => {
+        setAuth(response.data.user);
+        const role = response.data.user.role;
+        const warehouse = response.data.user.warehouse;
+        handleRedirect(role, warehouse);
+      });
+  })
+  .catch((error) => {
+    console.error(error);
+    setMessage(error.response.data.message);
+    setLoading(false);
+  })
+};
+
+const handleRedirect = (role) => {
+  if (role === 'requester' || role === 'warehouse_staff') {
+    navigate(`/dashboard/${role}`);
+  } else {
+    navigate(`/dashboard/${role}/barang`);
+  }
+}
   
   return (
     <div className="bg-gray-50 flex items-center justify-center h-screen">

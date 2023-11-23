@@ -1,8 +1,27 @@
+import { useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom"
+import { fetchDataService } from "../../../utils/fetchData";
+import { getUrl } from "../../../utils/config";
 
 export default function LaporanKeluar() {
-    const table = [
-    ]
+    const [dataReportOut, setDataReportOut] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [search, setSearch] = useState("");
+    let num = 1;
+
+    useEffect(() => {
+        const reportout = new fetchDataService(getUrl('/api/admin/reportout'));
+        reportout.fetchData()
+        .then(response => {
+            setDataReportOut(response.data);
+            setIsLoading(false);
+            console.log(response)
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    }, [])
 
     return(
         <>
@@ -36,19 +55,42 @@ export default function LaporanKeluar() {
             <div className="w-full mt-4 overflow-auto scrollbar-gray">
                 <div className="grid grid-cols-6 p-2 text-xs font-bold text-gray-900 bg-gray-100 rounded mb-1 sticky top-0">
                     <span>No</span>
-                    <span>Kode</span>
                     <span>Barang</span>
-                    <span>Jumlah</span>
                     <span>Seri</span>
+                    <span>Jumlah</span>
+                    <span>Status</span>
                     <span>Tanggal</span>
                 </div>
-                {table.map((row) => (
-                    <div key={row.no} className="grid grid-cols-6 p-2 text-xs font-medium text-gray-900 mb-1">
-                        {Object.keys(row).map((key) => (
-                            <span key={key}>{row[key]}</span>
-                        ))}
-                    </div>
-                ))}
+                {isLoading ? (
+                    <>
+                        <div className="space-y-2 animate-pulse">
+                            <div className="flex bg-gray-200 p-3.5 rounded"/>
+                            <div className="flex bg-gray-200 p-3.5 rounded"/>
+                            <div className="flex bg-gray-200 p-3.5 rounded"/>
+                            <div className="flex bg-gray-200 p-3.5 rounded"/>
+                            <div className="flex bg-gray-200 p-3.5 rounded"/>
+                            <div className="flex bg-gray-200 p-3.5 rounded"/>
+                            <div className="flex bg-gray-200 p-3.5 rounded"/>
+                        </div>
+                    </>
+                ) : (
+                    dataReportOut.filter((row) => {
+                        if (search === "") {
+                            return row
+                        } else if (row.name.toLowerCase().includes(search.toLowerCase())) {
+                            return row
+                        }
+                    }).map((row) => (
+                        <div key={row.id} className="grid grid-cols-6 p-2 text-xs font-medium text-gray-900 mb-1">
+                            <span>{num++}</span>
+                            <span>{row.request.form.items.items.name}</span>
+                            <span>{row.request.form.items.series}</span>
+                            <span>{row.request.form.total}</span>
+                            <span>{row.request.status}</span>
+                            <span>{row.updated_at}</span>
+                        </div>
+                    ))
+                )}
             </div>
         </>
     )

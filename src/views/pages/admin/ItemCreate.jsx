@@ -1,8 +1,10 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom"
 import { fetchDataService } from "../../../utils/fetchData";
 import { getUrl } from "../../../utils/config";
+import DatalistInput from "react-datalist-input";
+import { AuthContext } from "../../../App";
 
 export default function ItemCreate() {
     const [setCode] = useState('');
@@ -12,9 +14,10 @@ export default function ItemCreate() {
     const [total, setTotal] = useState('');
     const [image, setImage] = useState('');
     const [vendor, setVendor] = useState('');
-    const [category, setCategory] = useState(1);
-    const [unit, setUnit] = useState(1);
-    const [warehouse, setWarehouse] = useState(1);
+    const [category, setCategory] = useState('');
+    const [unit, setUnit] = useState('');
+    const [warehouse, setWarehouse] = useState('');
+    const [items, setItems] = useState([]);
     const [dataWarehouse, setDataWarehouse] = useState([]);
     const [dataUnit, setDataUnit] = useState([]);
     const [dataCategory, setDataCategory] = useState([]);
@@ -28,17 +31,22 @@ export default function ItemCreate() {
         const warehouse = new fetchDataService(getUrl(`/api/admin/warehouse`));
         const unit = new fetchDataService(getUrl(`/api/admin/unit`));
         const category = new fetchDataService(getUrl(`/api/admin/category`));
-        Promise.all([warehouse.fetchData(), unit.fetchData(), category.fetchData()])
+        const items = new fetchDataService(getUrl(`/api/admin/items`));
+        Promise.all([warehouse.fetchData(), unit.fetchData(), category.fetchData(), items.fetchData()])
         .then(response => {
-            const [warehouse, unit, category] = response;
+            const [warehouse, unit, category, items] = response;
             setDataWarehouse(warehouse.data);
             setDataUnit(unit.data);
             setDataCategory(category.data);
+            setItems(items.data);
+            console.log(items.data)
         })
         .catch(error => {
             console.error(error);
         });
     }, [])
+
+    const data = items.map(item => ({ id: item.name, value: item.name }));
 
     function generateCode(no) {
         const paddedNo = String(no).padStart(3, '0');
@@ -46,12 +54,13 @@ export default function ItemCreate() {
     }
 
     const code = generateCode(no);
-
+    
     const handleCode = (e) => {
         setCode(e.target.value);
     };
     const handleName = (e) => {
         setName(e.target.value);
+        setIsOpen(false);
     };
     const handleDescription = (e) => {
         setDescription(e.target.value);
@@ -76,6 +85,11 @@ export default function ItemCreate() {
     };
     const handleWarehouse = (e) => {
         setWarehouse(e.target.value);
+    };
+
+    const handleSelect = (item) => {
+        console.log(item.value);
+        setName(item.value);
     };
 
     const navigate = useNavigate()
@@ -103,6 +117,7 @@ export default function ItemCreate() {
         },
         }).then(response => {
             setNo(no + 1);
+            console.log(response)
             navigate(-1)
         }).catch(error => {
             console.error(error);
@@ -134,17 +149,17 @@ export default function ItemCreate() {
                                     className="w-full border rounded p-2 border-gray-300 outline-none cursor-not-allowed"
                                     value={code} 
                                     onChange={handleCode} 
-                                    readOnly disabled/>
+                                    readOnly/>
                             </div>
                             <div className="flex w-full space-x-4">
                                 <div className="w-full space-y-2">
                                     <div className="group space-y-2">
-                                        <label htmlFor="kode" className="w-64">Nama Produk</label>
-                                        <input 
-                                            type="text" 
-                                            className="w-full border rounded p-2 border-gray-300 outline-none"
+                                        <DatalistInput
+                                            label="Nama Produk"
                                             onChange={handleName}
                                             value={name}
+                                            onSelect={handleSelect}
+                                            items={data}
                                         />
                                     </div>
                                     <div className="group space-y-2">
@@ -224,10 +239,10 @@ export default function ItemCreate() {
                                             onChange={handleWarehouse}
                                             value={warehouse}
                                         >
-                                            {dataWarehouse.map(unit => (
+                                            {dataWarehouse.map(warehouse => (
                                                 <>
-                                                    <option key={unit.id} value={unit.id}>
-                                                        {unit.name}
+                                                    <option key={warehouse.id} value={warehouse.id}>
+                                                        {warehouse.name}
                                                     </option>
                                                 </>
                                             ))}

@@ -1,16 +1,20 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom"
+import { fetchDataService } from "../../../utils/fetchData";
+import { getUrl } from "../../../utils/config";
 
 export default function UserCreate() {  
     const [ein, setEin] = useState('');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [warehouse, setWarehouse] = useState('');
     const [image, setImage] = useState(null);
-    const [role, setRole] = useState('admin');
+    const [role, setRole] = useState('warehouse_staff');
     const [gender, setGender] = useState('male');
     const [dob, setDOB] = useState('0000-00-00');
+    const [dataWarehouse, setDataWarehouse] = useState([]);
     const navigate = useNavigate();
     
     const [no, setNo] = useState(() => {
@@ -19,7 +23,6 @@ export default function UserCreate() {
     });
 
     const roles = {
-        admin: '1',
         warehouse_staff: '2',
         requester: '3'
     };
@@ -36,6 +39,17 @@ export default function UserCreate() {
     }
 
     const code = generateCode(no);
+
+    useEffect(() => {
+        const warehouse = new fetchDataService(getUrl(`/api/admin/warehouse`));
+        warehouse.fetchData()
+        .then(response => {
+            setDataWarehouse(response.data);
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    }, [])
 
     const handleChangeEin = (e) => {
         setEin(e.target.value);
@@ -61,6 +75,9 @@ export default function UserCreate() {
     const handleChangegender = (e) => {
         setGender(e.target.value);
     };  
+    const handleChangeWarehouse = (e) => {
+        setWarehouse(e.target.value);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -76,6 +93,7 @@ export default function UserCreate() {
         formData.append('dob', dob);
         formData.append('gender', gender);
         formData.append('image', image);
+        formData.append('warehouse_id', warehouse);
 
         await axios.post('http://127.0.0.1:8000/api/admin/user', formData, { 
             headers: {
@@ -136,6 +154,22 @@ export default function UserCreate() {
                                         />
                                     </label>
                                 </div> 
+                            </div>
+                            <div className="group space-y-2">
+                                <label htmlFor="kode" className="w-64">Warehouse</label>
+                                <select 
+                                    className="w-full border rounded p-2 border-gray-300 outline-none"
+                                    onChange={handleChangeWarehouse}
+                                    value={warehouse}
+                                >
+                                    {dataWarehouse.map(warehouse => (
+                                        <>
+                                            <option key={warehouse.id} value={warehouse.id}>
+                                                {warehouse.name}
+                                            </option>
+                                        </>
+                                    ))}
+                                </select>
                             </div>
                             <div className="flex space-x-4 w-full">
                                 <div className="space-y-4 w-full">

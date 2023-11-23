@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom"
 import { fetchDataService } from "../../../utils/fetchData";
@@ -18,6 +17,7 @@ export default function User() {
             const filteredUsers = response.data.filter(user => user.role === role);
             setDataUser(filteredUsers);
             setIsLoading(false);
+            console.log(response)
         })
         .catch(error => {
             console.error(error);
@@ -49,12 +49,13 @@ export default function User() {
                 </div>
             </div> 
             <div className="w-full mt-4 overflow-auto scrollbar-gray">
-                <div className="grid grid-cols-5 p-2 text-xs font-bold text-gray-900 bg-gray-100 rounded mb-1 sticky top-0">
+                <div className="grid grid-cols-6 p-2 text-xs font-bold text-gray-900 bg-gray-100 rounded mb-1 sticky top-0">
                     <span>No</span>
                     <span>NIP</span>
                     <span>Nama</span>
                     <span>Role</span>
                     <span>Email</span>
+                    <span>Gudang</span>
                 </div>
                 {isLoading ? (
                     <>
@@ -75,7 +76,7 @@ export default function User() {
                             return row
                         }
                     }).map((row) => (
-                        <div key={row.id} className="grid grid-cols-5 p-2 text-xs font-medium text-gray-900 mb-1">
+                        <div key={row.id} className="grid grid-cols-6 p-2 text-xs font-medium text-gray-900 mb-1">
                             <span>{num++}</span>
                             <span>{row.ein}</span>
                             <Link to={`edit/${row.id}`}>
@@ -83,6 +84,7 @@ export default function User() {
                             </Link>
                             <span>{row.role}</span>
                             <span>{row.email}</span>
+                            <span>{row.warehouse_id}</span>
                         </div>
                     ))
                 )}

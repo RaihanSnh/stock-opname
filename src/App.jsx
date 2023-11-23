@@ -3,6 +3,7 @@ import { BrowserRouter } from "react-router-dom";
 import Router from "./router";
 import axios from "axios";
 import Cookies from "universal-cookie";
+import { getUrl } from "./utils/config";
 
 export const AuthContext = React.createContext();
 
@@ -17,7 +18,7 @@ export default function App() {
         setLoading(true);
         const token = new Cookies().get("Authorization");
     
-        axios.get("http://127.0.0.1:8000/api/auth/getuser", {
+        axios.get(getUrl("/api/auth/getuser"), {
             withCredentials: true,
             headers: {
                 Authorization: `Bearer ${token}`,

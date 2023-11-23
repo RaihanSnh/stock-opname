@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
-import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
-import TableBarang from "./table_barang"
-import TableGudang from "./table_gudang";
+import { Link, NavLink, Outlet } from "react-router-dom";
+import { fetchDataService } from "../../../utils/fetchData";
+import { getUrl } from "../../../utils/config";
+import logo from "../../../assets/images/logo.svg"
 
 export default function Produk() {
+    const [dataItem, setDataItem] = useState([]);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [active, setActive] = useState(null);
+    const [data, setData] = useState([]);
 
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);
@@ -22,6 +25,48 @@ export default function Produk() {
             setActive(storedActiveLink);
         }
     }, []);
+
+    useEffect(() => {
+        const warehouse = new fetchDataService(getUrl('/api/admin/warehouse'));
+        warehouse.fetchData()
+        .then(response => {
+            setData(response.data);
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    }, [])
+
+    useEffect(() => {
+        const item = new fetchDataService(getUrl('/api/admin/item'));
+        item.fetchData()
+        .then(response => {
+            setDataItem(response.data);
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    }, [])
+
+    const countStockStatus = (itemTotal) => {
+        let JumlahHabis = 0;
+        let JumlahHampirHabis = 0;
+        let JumlahTersedia = 0;
+    
+        itemTotal.forEach(item => {
+            if (item.total <= 10 && item.total > 1) {
+                JumlahHampirHabis++;
+            } else if (item.total == 0) {
+                JumlahHabis++;
+            } else {
+                JumlahTersedia++;
+            }
+        });
+    
+        return { habis: JumlahHabis, HampirHabis: JumlahHampirHabis, tersedia: JumlahTersedia };
+    };
+
+    const stockStatus = countStockStatus(dataItem);
 
     return(
         <>
@@ -69,29 +114,29 @@ export default function Produk() {
             <div className="grid grid-cols-4 gap-4">
                 <div className="border border-green-600 rounded">
                     <div className="bg-green-100 p-2 border-b rounded-t">
-                        <h1 className="font-bold">Stok Tersedia</h1>
+                        <h1 className="font-bold">Stock Tersedia</h1>
                     </div>
                     <div className="p-2">
                         <p className="text-sm">Total Produk</p>
-                        <h3 className="font-bold text-lg">1</h3>
+                        <h3 className="font-bold text-lg">{stockStatus.tersedia}</h3>
                     </div>
                 </div>
                 <div className="border border-yellow-500 rounded">
                     <div className="bg-yellow-100 p-2 border-b rounded-t">
-                        <h1 className="font-bold">Stok Hampir Habis</h1>
+                        <h1 className="font-bold">Stock Hampir Habis</h1>
                     </div>
                     <div className="p-2">
                         <p className="text-sm">Total Produk</p>
-                        <h3 className="font-bold text-lg">0</h3>
+                        <h3 className="font-bold text-lg">{stockStatus.HampirHabis}</h3>
                     </div>
                 </div>
                 <div className="border border-red-600 rounded">
                     <div className="bg-red-100 p-2 border-b rounded-t">
-                        <h1 className="font-bold">Stok Habis</h1>
+                        <h1 className="font-bold">Stock Habis</h1>
                     </div>
                     <div className="p-2">
                         <p className="text-sm">Total Produk</p>
-                        <h3 className="font-bold text-lg">0</h3>
+                        <h3 className="font-bold text-lg">{stockStatus.habis}</h3>
                     </div>
                 </div>
                 <div className="border border-purple-600 rounded">
@@ -100,7 +145,7 @@ export default function Produk() {
                     </div>
                     <div className="p-2">
                         <p className="text-sm">Total Gudang</p>
-                        <h3 className="font-bold text-lg">1</h3>
+                        <h3 className="font-bold text-lg">{data.length}</h3>
                     </div>
                 </div>
             </div>
